@@ -1,0 +1,20 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="256" y2="256" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E0F2FE"/>
+      <stop offset="1" stop-color="#BAE6FD"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="70" y1="146" x2="186" y2="226" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0EA5E9"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="36" fill="url(#bg)"/>
+  <circle cx="128" cy="104" r="42" fill="#F7C4A4"/>
+  <path d="M88 96C88 72.804 106.804 54 130 54H132C155.196 54 174 72.804 174 96V107H88V96Z" fill="#3F3F46"/>
+  <path d="M72 220C75 182 97 160 128 160C159 160 181 182 184 220H72Z" fill="url(#shirt)"/>
+  <path d="M99 102C99 88.7452 109.745 78 123 78H133C146.255 78 157 88.7452 157 102V106H99V102Z" fill="#1F2937"/>
+  <path d="M112 108C112 116.837 119.163 124 128 124C136.837 124 144 116.837 144 108" stroke="#B45309" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="111" cy="105" r="3" fill="#111827"/>
+  <circle cx="145" cy="105" r="3" fill="#111827"/>
+</svg>

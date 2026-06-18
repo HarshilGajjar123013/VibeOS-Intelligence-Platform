@@ -1,0 +1,1376 @@
+@use "sass:color";
+
+/* ==========================================================================
+   ROI CALCULATOR SECTION STYLING (VIBE OS)
+   ========================================================================== */
+
+// --- Color Tokens & Variables ---
+$slate-950: #020617;
+$slate-900: #0f172a;
+$slate-800: #1e293b;
+$slate-700: #334155;
+$slate-600: #475569;
+$slate-500: #64748b;
+$slate-400: #94a3b8;
+$slate-300: #cbd5e1;
+$slate-200: #e2e8f0;
+$slate-100: #f1f5f9;
+$slate-50: #fafbfe;
+
+$purple-primary: #7e53ff;
+$purple-glow: rgba(126, 83, 255, 0.12);
+$purple-dark: #6333ec;
+
+$blue-primary: #3b82f6;
+$blue-glow: rgba(59, 130, 246, 0.12);
+$blue-dark: #1d4ed8;
+
+$green-primary: #22c55e;
+$green-glow: rgba(34, 197, 94, 0.12);
+
+$orange-primary: #f97316;
+$orange-glow: rgba(249, 115, 22, 0.12);
+
+$gold-primary: #fbbf24;
+$gold-glow: rgba(251, 191, 36, 0.12);
+
+$red-primary: #ef4444;
+$red-glow: rgba(239, 68, 68, 0.12);
+
+$ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+// --- Section Layout ---
+.vibe-roi-section {
+  position: relative;
+  min-height: 100vh;
+  padding: 160px 24px 100px;
+  overflow: hidden;
+  z-index: 1;
+  transition: background-color 0.4s ease, color 0.4s ease;
+
+  // Grid/mesh pattern background (light mode default)
+  background-color: #fafbfe;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(126, 83, 255, 0.04) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 45%),
+    radial-gradient(rgba($slate-300, 0.25) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 24px 24px;
+  color: $slate-800;
+
+  // Dark mode override
+  .theme-dark & {
+    background-color: #020617;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(126, 83, 255, 0.1) 0%, transparent 45%),
+      radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 45%),
+      radial-gradient(rgba(30, 41, 59, 0.35) 1px, transparent 1px);
+    color: $slate-200;
+  }
+}
+
+// --- Background Orbs ---
+.roi-glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.6;
+
+  &--1 {
+    top: 5%;
+    left: 10%;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba($purple-primary, 0.12) 0%, transparent 80%);
+    .theme-dark & {
+      background: radial-gradient(circle, rgba($purple-primary, 0.2) 0%, transparent 80%);
+    }
+  }
+
+  &--2 {
+    top: 40%;
+    right: 5%;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba($blue-primary, 0.1) 0%, transparent 80%);
+    .theme-dark & {
+      background: radial-gradient(circle, rgba($blue-primary, 0.18) 0%, transparent 80%);
+    }
+  }
+
+  &--3 {
+    bottom: 10%;
+    left: 20%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba($green-primary, 0.05) 0%, transparent 80%);
+    .theme-dark & {
+      background: radial-gradient(circle, rgba($green-primary, 0.1) 0%, transparent 80%);
+    }
+  }
+}
+
+.vibe-roi-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// --- Common Section Header ---
+.section-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 56px;
+
+  .kicker {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: $purple-primary;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+
+  .title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    color: $slate-950;
+
+    .theme-dark & {
+      color: white;
+    }
+  }
+
+  .desc {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: $slate-500;
+
+    .theme-dark & {
+      color: $slate-400;
+    }
+  }
+}
+
+// --- Hero & Calculator ---
+.roi-hero {
+  margin-bottom: 120px;
+
+  &__header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 64px;
+
+    .roi-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: white;
+      border: 1px solid rgba($slate-200, 0.8);
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: $purple-primary;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      margin-bottom: 24px;
+
+      .theme-dark & {
+        background: rgba($slate-900, 0.6);
+        border-color: rgba($slate-800, 0.8);
+        color: rgba(180, 160, 255, 0.9);
+      }
+    }
+
+    .roi-hero-title {
+      font-size: 3rem;
+      font-weight: 850;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      color: $slate-950;
+
+      span {
+        background: linear-gradient(135deg, $purple-primary 0%, $blue-primary 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .theme-dark & {
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        font-size: 2.25rem;
+      }
+    }
+
+    .roi-hero-subtitle {
+      font-size: 1.25rem;
+      line-height: 1.6;
+      color: $slate-600;
+
+      .theme-dark & {
+        color: $slate-300;
+      }
+
+      @media (max-width: 768px) {
+        font-size: 1.1rem;
+      }
+    }
+  }
+}
+
+// --- Calculator Grid Dashboard ---
+.calculator-dashboard {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 32px;
+  background: white;
+  border: 1px solid rgba($slate-200, 0.8);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+
+  .theme-dark & {
+    background: rgba($slate-900, 0.4);
+    border-color: rgba($slate-800, 0.6);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+}
+
+// --- Left Inputs Panel ---
+.calculator-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+
+  .inputs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $slate-100;
+    padding-bottom: 18px;
+
+    .theme-dark & {
+      border-color: rgba($slate-800, 0.5);
+    }
+
+    .title-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: $purple-primary;
+
+      h2 {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: $slate-950;
+        margin: 0;
+
+        .theme-dark & {
+          color: white;
+        }
+      }
+    }
+
+    .currency-selector {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: $slate-400;
+      }
+
+      select {
+        padding: 6px 12px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border-radius: 8px;
+        border: 1px solid $slate-200;
+        background: $slate-50;
+        color: $slate-800;
+        cursor: pointer;
+        outline: none;
+        transition: all 0.2s ease;
+
+        &:focus {
+          border-color: $purple-primary;
+        }
+
+        .theme-dark & {
+          background: $slate-950;
+          border-color: $slate-800;
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+// --- Inputs Group ---
+.inputs-group {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &.advanced {
+    padding-top: 16px;
+    border-top: 1px dashed rgba($slate-200, 0.8);
+    
+    .theme-dark & {
+      border-color: rgba($slate-800, 0.4);
+    }
+  }
+}
+
+// --- Range Sliders ---
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .slider-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: $slate-700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .theme-dark & {
+        color: $slate-300;
+      }
+
+      svg {
+        color: $purple-primary;
+      }
+    }
+
+    .slider-value {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: $slate-950;
+
+      .theme-dark & {
+        color: white;
+      }
+    }
+  }
+
+  .slider-limits {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: $slate-400;
+  }
+}
+
+// Premium Webkit Range Input Styling
+.vibe-range-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 99px;
+  background: $slate-100;
+  outline: none;
+  transition: background 0.3s;
+
+  .theme-dark & {
+    background: $slate-800;
+  }
+
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: white;
+    border: 2.5px solid $purple-primary;
+    box-shadow: 0 4px 10px rgba($purple-primary, 0.3);
+    cursor: pointer;
+    margin-top: -7px;
+    transition: transform 0.1s, box-shadow 0.2s;
+
+    &:hover {
+      transform: scale(1.15);
+      box-shadow: 0 4px 14px rgba($purple-primary, 0.45);
+    }
+  }
+
+  &::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    background: $slate-100;
+    border-radius: 99px;
+    
+    .theme-dark & {
+      background: $slate-800;
+    }
+  }
+
+  &::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: white;
+    border: 2.5px solid $purple-primary;
+    box-shadow: 0 4px 10px rgba($purple-primary, 0.3);
+    cursor: pointer;
+    transition: transform 0.1s;
+
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
+}
+
+// --- Advanced Settings Toggle ---
+.advanced-toggle {
+  margin-top: 10px;
+
+  .toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px dashed $slate-200;
+    border-radius: 12px;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: $slate-600;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: $purple-primary;
+      color: $purple-primary;
+    }
+
+    .theme-dark & {
+      border-color: rgba($slate-800, 0.8);
+      color: $slate-400;
+
+      &:hover {
+        border-color: rgba($purple-primary, 0.7);
+        color: white;
+      }
+    }
+
+    .chevron-icon {
+      transition: transform 0.3s ease;
+      &.rotated {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+// --- Right Results Panel ---
+.calculator-results {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: $slate-50;
+  border: 1px solid rgba($slate-200, 0.8);
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+
+  .theme-dark & {
+    background: rgba($slate-950, 0.4);
+    border-color: rgba($slate-800, 0.6);
+  }
+
+  .results-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 4px 8px;
+    background: rgba($purple-primary, 0.08);
+    border: 1px solid rgba($purple-primary, 0.15);
+    border-radius: 4px;
+    color: $purple-primary;
+  }
+
+  .results-summary-card {
+    border-bottom: 1px solid rgba($slate-200, 0.8);
+    padding-bottom: 24px;
+
+    .theme-dark & {
+      border-color: rgba($slate-800, 0.5);
+    }
+
+    .summary-lbl {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: $slate-500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+
+      .theme-dark & {
+        color: $slate-400;
+      }
+    }
+
+    .summary-val {
+      font-size: 3rem;
+      font-weight: 900;
+      color: $slate-950;
+      letter-spacing: -0.04em;
+      margin: 8px 0 12px;
+      line-height: 1;
+
+      .theme-dark & {
+        color: white;
+      }
+
+      @media (max-width: 1200px) {
+        font-size: 2.5rem;
+      }
+    }
+
+    .summary-desc {
+      font-size: 0.8125rem;
+      line-height: 1.4;
+      color: $slate-500;
+      margin: 0;
+    }
+  }
+}
+
+// --- Split Metrics ---
+.financial-metrics-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  .f-metric-card {
+    background: white;
+    border: 1px solid rgba($slate-200, 0.8);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .theme-dark & {
+      background: rgba($slate-900, 0.3);
+      border-color: rgba($slate-800, 0.6);
+    }
+
+    .f-metric-lbl {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: $slate-400;
+    }
+
+    .f-metric-val {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: $slate-950;
+
+      .theme-dark & {
+        color: white;
+      }
+    }
+
+    &.highlight {
+      background: rgba($green-primary, 0.03);
+      border-color: rgba($green-primary, 0.2);
+
+      .f-metric-lbl {
+        color: $green-primary;
+      }
+
+      .f-metric-val {
+        color: $green-primary;
+        font-size: 1.25rem;
+      }
+
+      .theme-dark & {
+        background: rgba($green-primary, 0.05);
+        border-color: rgba($green-primary, 0.3);
+      }
+    }
+  }
+}
+
+// --- ROI Badge Block ---
+.roi-badge-block {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  border: 1px solid rgba($slate-200, 0.8);
+  border-radius: 16px;
+  padding: 16px;
+
+  .theme-dark & {
+    background: rgba($slate-900, 0.3);
+    border-color: rgba($slate-800, 0.6);
+  }
+
+  .roi-percentage-circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $purple-primary 0%, $blue-primary 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 3px;
+
+    .percentage-display {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: $slate-950;
+
+      .num {
+        font-size: 1rem;
+        font-weight: 850;
+      }
+
+      .lbl {
+        font-size: 0.6rem;
+        font-weight: 750;
+        text-transform: uppercase;
+        color: $slate-400;
+        letter-spacing: 0.05em;
+      }
+
+      .theme-dark & {
+        background: $slate-950;
+        color: white;
+      }
+    }
+  }
+
+  .roi-narrative {
+    h4 {
+      font-size: 0.875rem;
+      font-weight: 700;
+      margin: 0 0 4px;
+      color: $slate-950;
+
+      .theme-dark & {
+        color: white;
+      }
+    }
+
+    p {
+      font-size: 0.785rem;
+      line-height: 1.4;
+      color: $slate-500;
+      margin: 0;
+
+      .theme-dark & {
+        color: $slate-400;
+      }
+
+      strong {
+        color: $green-primary;
+      }
+    }
+  }
+}
+
+// --- Benefits Breakdown ---
+.results-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid rgba($slate-200, 0.8);
+  padding-top: 20px;
+
+  .theme-dark & {
+    border-color: rgba($slate-800, 0.5);
+  }
+
+  h3 {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $slate-400;
+    margin: 0 0 6px;
+  }
+
+  .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    border: 1px solid rgba($slate-200, 0.6);
+    border-radius: 10px;
+    padding: 12px 14px;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: translateX(4px);
+    }
+
+    .theme-dark & {
+      background: rgba($slate-900, 0.2);
+      border-color: rgba($slate-800, 0.4);
+    }
+
+    .breakdown-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .lever-title {
+        font-size: 0.8125rem;
+        font-weight: 650;
+        color: $slate-800;
+
+        .theme-dark & {
+          color: white;
+        }
+      }
+
+      .lever-detail {
+        font-size: 0.725rem;
+        color: $slate-400;
+      }
+    }
+
+    .breakdown-price {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: $slate-950;
+
+      .theme-dark & {
+        color: white;
+      }
+    }
+  }
+}
+
+// --- Problem Section ---
+.roi-problem-section {
+  padding: 100px 0;
+  border-top: 1px solid rgba($slate-200, 0.5);
+
+  .theme-dark & {
+    border-color: rgba($slate-800, 0.3);
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+  }
+
+  .problem-card {
+    background: white;
+    border: 1px solid rgba($slate-200, 0.8);
+    border-radius: 16px;
+    padding: 32px;
+    transition: transform 0.3s $ease-out, box-shadow 0.3s;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.02);
+    }
+
+    .theme-dark & {
+      background: rgba($slate-900, 0.3);
+      border-color: rgba($slate-800, 0.6);
+      box-shadow: none;
+    }
+
+    .icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+
+      &.red { background: rgba($red-primary, 0.08); color: #ef4444; }
+      &.orange { background: rgba($orange-primary, 0.08); color: $orange-primary; }
+      &.blue { background: rgba($blue-primary, 0.08); color: $blue-primary; }
+      &.purple { background: rgba($purple-primary, 0.08); color: $purple-primary; }
+    }
+
+    h3 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: $slate-950;
+
+      .theme-dark & {
+        color: white;
+      }
+    }
+
+    p {
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: $slate-500;
+      margin: 0;
+
+      .theme-dark & {
+        color: $slate-400;
+      }
+    }
+  }
+}
+
+// --- How It Works Section ---
+.roi-how-it-works-section {
+  padding: 100px 0;
+  border-top: 1px solid rgba($slate-200, 0.5);
+
+  .theme-dark & {
+    border-color: rgba($slate-800, 0.3);
+  }
+
+  .timeline-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+
+    .timeline-connector-line {
+      position: absolute;
+      top: 24px;
+      bottom: 24px;
+      left: 24px;
+      width: 2px;
+      background: rgba($slate-200, 0.8);
+
+      .theme-dark & {
+        background: rgba($slate-800, 0.8);
+      }
+    }
+  }
+
+  .timeline-step {
+    display: flex;
+    gap: 24px;
+    position: relative;
+    z-index: 2;
+
+    .step-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: white;
+      border: 2px solid $slate-200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-weight: 700;
+      color: $slate-700;
+
+      .theme-dark & {
+        background: $slate-950;
+        border-color: $slate-800;
+        color: white;
+      }
+    }
+
+    &:hover .step-number {
+      border-color: $purple-primary;
+      color: $purple-primary;
+    }
+
+    .step-content {
+      padding-top: 10px;
+
+      h3 {
+        font-size: 1.125rem;
+        font-weight: 750;
+        margin: 0 0 8px;
+        color: $slate-950;
+
+        .theme-dark & {
+          color: white;
+        }
+      }
+
+      p {
+        font-size: 0.9375rem;
+        line-height: 1.6;
+        color: $slate-500;
+        margin: 0;
+
+        .theme-dark & {
+          color: $slate-400;
+        }
+      }
+    }
+  }
+}
+
+// --- Outcomes & Scenario Tabs ---
+.roi-outcome-section {
+  padding: 100px 0;
+  border-top: 1px solid rgba($slate-200, 0.5);
+
+  .theme-dark & {
+    border-color: rgba($slate-800, 0.3);
+  }
+
+  .scenario-tabs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .tabs-header {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    .tab-trigger {
+      padding: 10px 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 99px;
+      border: 1px solid $slate-200;
+      background: white;
+      color: $slate-600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-color: $slate-300;
+      }
+
+      &.active {
+        background: $purple-primary;
+        border-color: $purple-primary;
+        color: white;
+        box-shadow: 0 4px 12px rgba($purple-primary, 0.2);
+      }
+
+      .theme-dark & {
+        background: rgba($slate-900, 0.2);
+        border-color: rgba($slate-800, 0.8);
+        color: $slate-400;
+
+        &:hover {
+          border-color: $slate-700;
+          color: white;
+        }
+
+        &.active {
+          background: $purple-primary;
+          border-color: $purple-primary;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .tab-viewport {
+    background: white;
+    border: 1px solid rgba($slate-200, 0.8);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.02);
+
+    .theme-dark & {
+      background: rgba($slate-900, 0.25);
+      border-color: rgba($slate-800, 0.6);
+      box-shadow: none;
+    }
+
+    @media (max-width: 768px) {
+      padding: 24px;
+    }
+  }
+}
+
+.scenario-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.scenario-description {
+  .panel-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+
+    &.green { background: rgba($green-primary, 0.08); color: $green-primary; }
+    &.purple { background: rgba($purple-primary, 0.08); color: $purple-primary; }
+    &.blue { background: rgba($blue-primary, 0.08); color: $blue-primary; }
+    &.gold { background: rgba($gold-primary, 0.08); color: #d97706; }
+  }
+
+  h3 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+    color: $slate-950;
+
+    .theme-dark & {
+      color: white;
+    }
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: $slate-500;
+    margin: 0 0 24px;
+
+    .theme-dark & {
+      color: $slate-400;
+    }
+  }
+
+  .caveat {
+    font-size: 0.75rem;
+    color: $slate-400;
+    margin: 0;
+  }
+}
+
+.outcome-callout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  .c-card {
+    background: $slate-50;
+    border: 1px solid $slate-100;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .theme-dark & {
+      background: rgba($slate-950, 0.3);
+      border-color: rgba($slate-800, 0.4);
+    }
+
+    .c-val {
+      font-size: 1.75rem;
+      font-weight: 850;
+      color: $slate-950;
+
+      .theme-dark & {
+        color: white;
+      }
+    }
+
+    .c-lbl {
+      font-size: 0.75rem;
+      font-weight: 650;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: $slate-400;
+    }
+  }
+}
+
+// --- SVG Chart Components ---
+.scenario-visualization {
+  background: $slate-50;
+  border: 1px solid rgba($slate-200, 0.8);
+  border-radius: 16px;
+  padding: 24px;
+
+  .theme-dark & {
+    background: rgba($slate-950, 0.2);
+    border-color: rgba($slate-800, 0.6);
+  }
+
+  h4 {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: $slate-950;
+    margin: 0 0 16px;
+    text-align: center;
+
+    .theme-dark & {
+      color: white;
+    }
+  }
+
+  .svg-chart-container {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .chart-val {
+    font-size: 0.6875rem;
+  }
+
+  .chart-label-x {
+    font-size: 0.625rem;
+    fill: $slate-400;
+  }
+
+  .chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+
+    .badge {
+      font-size: 0.65rem;
+      font-weight: 650;
+      padding: 4px 8px;
+      border-radius: 4px;
+
+      &.red { background: rgba(#ef4444, 0.08); color: #ef4444; }
+      &.green { background: rgba($green-primary, 0.08); color: $green-primary; }
+      &.purple { background: rgba($purple-primary, 0.08); color: $purple-primary; }
+      &.blue { background: rgba($blue-primary, 0.08); color: $blue-primary; }
+      &.orange { background: rgba($orange-primary, 0.08); color: $orange-primary; }
+      &.slate { background: rgba($slate-500, 0.08); color: $slate-500; }
+      &.gold { background: rgba($gold-primary, 0.08); color: #d97706; }
+    }
+  }
+}
+
+// --- FAQ Accordions ---
+.roi-faq-section {
+  padding: 100px 0;
+  border-top: 1px solid rgba($slate-200, 0.5);
+
+  .theme-dark & {
+    border-color: rgba($slate-800, 0.3);
+  }
+
+  .faq-accordion-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .faq-accordion-item {
+    background: white;
+    border: 1px solid $slate-200;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+
+    .theme-dark & {
+      background: rgba($slate-900, 0.25);
+      border-color: rgba($slate-800, 0.8);
+    }
+
+    &:hover {
+      border-color: $purple-primary;
+    }
+
+    .accordion-trigger {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 20px 24px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-size: 1rem;
+      font-weight: 700;
+      color: $slate-950;
+      outline: none;
+
+      .theme-dark & {
+        color: white;
+      }
+
+      .chevron {
+        transition: transform 0.3s ease;
+        color: $slate-400;
+      }
+    }
+
+    &.active {
+      border-color: $purple-primary;
+
+      .accordion-trigger .chevron {
+        transform: rotate(180deg);
+        color: $purple-primary;
+      }
+
+      .accordion-content {
+        max-height: 300px;
+        padding: 0 24px 20px;
+      }
+    }
+
+    .accordion-content {
+      max-height: 0;
+      padding: 0 24px;
+      overflow: hidden;
+      transition: all 0.3s $ease-out;
+
+      p {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        color: $slate-500;
+        margin: 0;
+
+        .theme-dark & {
+          color: $slate-400;
+        }
+      }
+    }
+  }
+}
+
+// --- CTA Section ---
+.roi-cta-section {
+  padding: 80px 0;
+
+  .cta-box {
+    background: linear-gradient(135deg, $purple-primary 0%, $purple-dark 100%);
+    border-radius: 24px;
+    padding: 64px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    &__content {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .title {
+      font-size: 2.25rem;
+      font-weight: 850;
+      color: white;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px;
+    }
+
+    .desc {
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+      margin: 0 0 32px;
+    }
+
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 28px;
+        font-size: 0.9375rem;
+        font-weight: 700;
+        border-radius: 99px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+
+        &.btn-primary {
+          background: white;
+          color: $purple-dark;
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+          }
+        }
+
+        &.btn-secondary {
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          color: white;
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.18);
+          }
+        }
+      }
+    }
+  }
+}

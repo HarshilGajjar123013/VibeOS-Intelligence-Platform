@@ -1,0 +1,1 @@
+Shared TypeScript types and interfaces. Organize by domain (auth, api, ui).

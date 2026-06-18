@@ -1,0 +1,861 @@
+// ============================================================================
+// VibeOS Auth Pages – Vertex Blueprint Layout (Signin & Signup)
+// ============================================================================
+
+// Design Tokens (Matching references)
+$teal-brand: #058296;
+$teal-dark: #035b6a;
+$teal-light: #0ea5e9;
+$slate-dark: #1e293b;
+$slate-charcoal: #0f172a;
+$slate-muted: #64748b;
+$slate-border: #cbd5e1;
+$bg-blueprint: #f8fafc;
+$rivet-color: #94a3b8;
+$rivet-bg: #e2e8f0;
+
+// Extra slate color steps for dashboard elements
+$slate-400: #94a3b8;
+$slate-300: #cbd5e1;
+$slate-100: #f1f5f9;
+$slate-50:  #f8fafc;
+
+$ease: cubic-bezier(0.16, 1, 0.3, 1);
+$font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+$font-heading: "SF Pro Display", "SF Pro Text", -apple-system, sans-serif;
+
+// 1. GENERAL RESET & BLUEPRINT BACKGROUND
+.auth-page {
+  font-family: $font-sans;
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  background-color: $bg-blueprint;
+  
+  // Repeating grid overlay (blueprint grid lines)
+  background-image: 
+    linear-gradient(to right, rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+  background-position: center;
+  color: $slate-charcoal;
+
+  @media (max-width: 900px) {
+    height: auto;
+    min-height: 100vh;
+    overflow: auto;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .auth-page__layout {
+    width: 100%;
+    min-height: 100vh;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 38% 62%;
+    align-items: stretch;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 42% 58%;
+    }
+
+    @media (max-width: 900px) {
+      height: auto;
+      min-height: 100vh;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+    }
+  }
+}
+
+// 2. LEFT VISUAL PANEL (Teal Brand Panel)
+.auth-page__visual {
+  background: linear-gradient(180deg, $teal-brand 0%, $teal-dark 100%);
+  padding: 4rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+
+  @media (max-width: 900px) {
+    padding: 3rem 2rem;
+    gap: 3rem;
+    min-height: 480px;
+  }
+
+  // Visual texture lines
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.015) 0px, rgba(255, 255, 255, 0.015) 1px, transparent 1px, transparent 10px);
+    pointer-events: none;
+  }
+
+  .auth-page__visual-copy {
+    position: relative;
+    z-index: 2;
+  }
+
+  .auth-page__visual-logo {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    
+    .auth-page__visual-logo-img {
+      height: 38px;
+      width: auto;
+      display: block;
+      filter: brightness(0) invert(1);
+    }
+  }
+
+  .auth-page__visual-heading {
+    font-size: clamp(26px, 3vw, 36px);
+    font-weight: 800;
+    line-height: 1.25;
+    margin: 0 0 16px 0;
+    font-family: $font-heading;
+    letter-spacing: -0.015em;
+  }
+
+  .auth-page__visual-desc {
+    font-size: 14.5px;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    max-width: 420px;
+    margin: 0;
+  }
+
+  // Dashboard Visual Container
+  .auth-page__dashboard-visual {
+    position: relative;
+    margin: 40px auto;
+    width: 100%;
+    max-width: 380px;
+    height: 250px;
+    z-index: 2;
+
+    @media (max-width: 900px) {
+      margin: 20px auto;
+    }
+
+    // Main Chart Card
+    .dashboard-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px 24px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      color: $slate-charcoal;
+
+      .dashboard-card__header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        color: $slate-muted;
+        
+        .icon {
+          font-size: 14px;
+        }
+        .title {
+          font-weight: 800;
+          letter-spacing: -0.01em;
+          color: $slate-charcoal;
+        }
+        .dot {
+          margin-left: auto;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #e2e8f0;
+        }
+      }
+
+      .dashboard-card__body {
+        display: flex;
+        flex-grow: 1;
+        align-items: flex-end;
+        justify-content: space-between;
+        position: relative;
+        padding-bottom: 24px;
+      }
+    }
+
+    // Bar chart pairs styles
+    .bar-graph {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      width: 100%;
+      height: 100px;
+      padding-right: 90px; // space for the glass tooltip
+    }
+
+    .bar-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      max-width: 28px;
+
+      .bar-pair {
+        display: flex;
+        align-items: flex-end;
+        gap: 2px;
+        height: 80px;
+        width: 100%;
+      }
+
+      .bar {
+        flex: 1;
+        border-radius: 2px 2px 0 0;
+        
+        &.black {
+          background-color: #1e293b;
+        }
+        &.teal {
+          background-color: #0ea5e9;
+        }
+      }
+
+      .bar-label {
+        font-size: 8px;
+        font-weight: 800;
+        color: $slate-muted;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      // Active target highlight
+      &.active-group {
+        position: relative;
+        
+        .bar.teal {
+          background-color: #087d90;
+          box-shadow: 0 0 10px rgba(8, 125, 144, 0.4);
+        }
+
+        .indicator-line {
+          position: absolute;
+          bottom: 102%;
+          left: 50%;
+          width: 1.5px;
+          height: 35px;
+          background: #0ea5e9;
+          transform: translateX(-50%);
+
+          &::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #0ea5e9;
+          }
+        }
+
+        .indicator-tag {
+          position: absolute;
+          bottom: 135%;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #1e293b;
+          color: #ffffff;
+          font-size: 8.5px;
+          font-weight: 800;
+          padding: 3px 8px;
+          border-radius: 4px;
+          white-space: nowrap;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+      }
+    }
+
+    // Glass Tooltip Overlay
+    .glass-tooltip {
+      position: absolute;
+      right: 0;
+      bottom: 24px;
+      width: 110px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      .tooltip-row {
+        display: flex;
+        align-items: center;
+        font-size: 8px;
+        font-weight: 700;
+        
+        .dot {
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          margin-right: 5px;
+          
+          &.teal { background: #0ea5e9; }
+          &.blue { background: #3b82f6; }
+          &.dark { background: #1e293b; }
+        }
+
+        .label {
+          color: $slate-muted;
+          margin-right: 4px;
+        }
+
+        .val {
+          margin-left: auto;
+          color: $slate-charcoal;
+          font-weight: 800;
+        }
+      }
+    }
+
+    // Floating integration badges
+    .bubble {
+      position: absolute;
+      background: #ffffff;
+      border-radius: 100px;
+      padding: 6px 14px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      color: $slate-charcoal;
+      transition: transform 0.3s ease;
+
+      .icon {
+        font-size: 12px;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+
+      &--slack {
+        top: -15px;
+        right: 20px;
+      }
+      &--calendar {
+        top: -10px;
+        left: 30px;
+      }
+      &--shopify {
+        bottom: 10px;
+        left: -20px;
+      }
+      &--googleads {
+        bottom: 25px;
+        right: -10px;
+      }
+      &--zendesk {
+        bottom: -20px;
+        left: 40px;
+      }
+      &--robinhood {
+        background: #0ea5e9;
+        color: #ffffff;
+        bottom: 30px;
+        left: 210px;
+        padding: 4px 10px;
+        font-size: 9px;
+        border-radius: 100px;
+        box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+      }
+      &--marc {
+        background: #f59e0b;
+        color: #ffffff;
+        bottom: 35px;
+        left: 8px;
+        padding: 4px 10px;
+        font-size: 9.5px;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+      }
+    }
+
+    // Full dashboard layout mock for signup
+    .dashboard-fullscreen {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 85px 1fr;
+      color: $slate-charcoal;
+
+      .sidebar-mock {
+        background: #f8fafc;
+        border-right: 1px solid $slate-100;
+        padding: 14px 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+
+        .sidebar-brand {
+          font-size: 9px;
+          font-weight: 950;
+          color: $teal-brand;
+          margin-bottom: 10px;
+          text-align: center;
+        }
+
+        .sidebar-link {
+          font-size: 7.5px;
+          font-weight: 700;
+          color: $slate-muted;
+          padding: 6px;
+          border-radius: 6px;
+          cursor: pointer;
+          white-space: nowrap;
+
+          &.active {
+            background: rgba($teal-brand, 0.08);
+            color: $teal-brand;
+          }
+        }
+      }
+
+      .main-mock {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .main-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .title {
+            font-size: 11px;
+            font-weight: 850;
+          }
+          
+          .user-pill {
+            font-size: 7.5px;
+            font-weight: 800;
+            color: #ffffff;
+            background: $teal-brand;
+            padding: 3px 8px;
+            border-radius: 4px;
+          }
+        }
+
+        .stats-row {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 6px;
+        }
+
+        .stat-widget {
+          background: #f8fafc;
+          border: 1px solid $slate-100;
+          border-radius: 8px;
+          padding: 6px;
+          
+          .lbl {
+            font-size: 6px;
+            font-weight: 800;
+            color: $slate-muted;
+            text-transform: uppercase;
+            display: block;
+          }
+
+          strong {
+            font-size: 10px;
+            font-weight: 900;
+            color: $slate-charcoal;
+          }
+        }
+
+        .graph-widget {
+          flex-grow: 1;
+          background: #f8fafc;
+          border: 1px solid $slate-100;
+          border-radius: 8px;
+          padding: 8px;
+          display: flex;
+          flex-direction: column;
+
+          .graph-header {
+            font-size: 7.5px;
+            font-weight: 800;
+            color: $slate-muted;
+            margin-bottom: 6px;
+          }
+
+          .graph-line-area {
+            flex-grow: 1;
+            display: flex;
+            align-items: flex-end;
+          }
+        }
+      }
+    }
+  }
+
+  .auth-page__visual-footer {
+    position: relative;
+    z-index: 2;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+// 3. RIGHT FORM PANEL (Grid section)
+.auth-page__form-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+
+  @media (max-width: 900px) {
+    padding: 3rem 1.5rem;
+  }
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2.2rem 2.8rem 2rem;
+  margin: 0.5rem;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.05), 
+    0 2px 4px -1px rgba(0, 0, 0, 0.03),
+    0 20px 25px -5px rgba(0, 0, 0, 0.05);
+  border: 1px solid $slate-border;
+  position: relative;
+
+  @media (max-width: 480px) {
+    padding: 2rem 1.8rem 2rem;
+  }
+
+  // Rivets/Screws design at 4 corners
+  .rivet {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: $rivet-bg;
+    border: 1px solid $rivet-color;
+    
+    &.top-left { top: 12px; left: 12px; }
+    &.top-right { top: 12px; right: 12px; }
+    &.bottom-left { bottom: 12px; left: 12px; }
+    &.bottom-right { bottom: 12px; right: 12px; }
+  }
+
+  .auth-card__brand-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+
+    .auth-card__logo-img {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+  }
+
+  .auth-card__heading {
+    font-size: 22px;
+    font-weight: 700;
+    color: $slate-charcoal;
+    text-align: center;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.015em;
+  }
+
+  .auth-card__subheading {
+    font-size: 12.5px;
+    color: $slate-muted;
+    text-align: center;
+    margin: 0 0 16px 0;
+    line-height: 1.5;
+    max-width: 290px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+// 4. FORMS & INPUT FIELDS (Vertex theme)
+.auth-form {
+  display: grid;
+  gap: 12px;
+}
+
+.auth-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 13px;
+    font-weight: 700;
+    color: $slate-charcoal;
+  }
+
+  .label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .forgot-link {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: $teal-brand;
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    height: 42px;
+    border-radius: 8px;
+    border: 1px solid $slate-border;
+    background: #ffffff;
+    color: $slate-charcoal;
+    padding: 0 14px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $teal-brand;
+      box-shadow: 0 0 0 3px rgba($teal-brand, 0.08);
+    }
+  }
+
+  .password-wrapper {
+    position: relative;
+    width: 100%;
+
+    input {
+      padding-right: 40px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: $slate-muted;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        color: $slate-charcoal;
+      }
+    }
+  }
+}
+
+// Submit Button (Rounded pill black/slate button)
+.submit-btn {
+  width: 100%;
+  height: 44px;
+  border: none;
+  border-radius: 100px;
+  background-color: $slate-dark;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(30, 41, 59, 0.15);
+  margin-top: 6px;
+
+  &:hover {
+    background-color: $slate-charcoal;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.25);
+  }
+}
+
+// 5. SOCIAL LOGINS (White pill buttons with borders)
+.social-logins {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.social-btn {
+  height: 40px;
+  border-radius: 100px;
+  background: #ffffff;
+  border: 1px solid $slate-border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  font-weight: 700;
+  color: $slate-charcoal;
+
+  .social-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    background: $slate-50;
+    border-color: $slate-400;
+  }
+}
+
+// 6. CARD FOOTER & TOGGLE
+.auth-card__footer {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-toggle {
+  font-size: 13px;
+  font-weight: 600;
+  color: $slate-muted;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  .bold-link {
+    color: $slate-charcoal;
+    font-weight: 800;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    
+    span {
+      font-size: 10px;
+      font-weight: 900;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover {
+      color: $teal-brand;
+      
+      span {
+        transform: translateX(2px);
+      }
+    }
+  }
+}
+
+// Terms under card
+.auth-page__terms {
+  margin-top: 14px;
+  font-size: 11px;
+  color: $slate-muted;
+  text-align: center;
+  line-height: 1.5;
+
+  a {
+    color: $slate-muted;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid $slate-300;
+    
+    &:hover {
+      color: $slate-charcoal;
+      border-bottom-color: $slate-charcoal;
+    }
+  }
+}
+
+// Back to Home Link
+.auth-page__back {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+
+  .back-link {
+    font-size: 13px;
+    font-weight: 750;
+    color: $slate-muted;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: $slate-charcoal;
+      transform: translateX(-4px);
+    }
+  }
+}
+
+// Drifting Floating Animations Keyframes
+@keyframes float-shape-1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(15px, -15px); }
+}
+@keyframes float-shape-2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-10px, 15px); }
+}
+@keyframes float-dec-1 {
+  0%, 100% { transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(0); }
+  50% { transform: perspective(1000px) rotateX(3deg) rotateY(-3deg) translateY(-6px); }
+}
+@keyframes float-dec-2 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}

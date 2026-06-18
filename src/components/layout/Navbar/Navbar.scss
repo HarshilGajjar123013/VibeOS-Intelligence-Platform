@@ -1,0 +1,538 @@
+@use "sass:color";
+
+// Navbar.scss
+
+/* ────────────────────────────────────────────────────────── */
+/* Variables                                                  */
+/* ────────────────────────────────────────────────────────── */
+
+$white:        #ffffff;
+$black:        #111827;
+$text:         #374151;
+$text-light:   #6b7280;
+$border:       #e5e7eb;
+$primary:      #7c5cff;
+$primary-soft: rgba(124, 92, 255, 0.07);
+$primary-mid:  rgba(124, 92, 255, 0.14);
+$bg-soft:      #f8fafc;
+
+/* ────────────────────────────────────────────────────────── */
+/* Navbar Shell                                               */
+/* ────────────────────────────────────────────────────────── */
+
+.navbar {
+  position: fixed;
+  top: 24px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 0 24px;
+}
+
+.navbar__container {
+  max-width: 1320px;
+  height: 76px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px 0 28px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid $border;
+  border-radius: 24px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 24px 40px rgba(15, 23, 42, 0.06);
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* Logo                                                       */
+/* ────────────────────────────────────────────────────────── */
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
+
+  &:hover { opacity: 0.8; }
+}
+
+.navbar__logo-img {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* Nav                                                        */
+/* ────────────────────────────────────────────────────────── */
+
+.navbar__nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.navbar__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: $text;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    color: $primary;
+    background: $primary-soft;
+  }
+}
+
+.navbar__link--trigger { padding: 8px 14px; }
+
+/* ────────────────────────────────────────────────────────── */
+/* Caret                                                      */
+/* ────────────────────────────────────────────────────────── */
+
+.navbar__caret {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.22s ease;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* Dropdown wrapper                                           */
+/* ────────────────────────────────────────────────────────── */
+
+.navbar__dropdown {
+  position: relative;
+
+  &:hover {
+    > .navbar__link--trigger {
+      color: $primary;
+      background: $primary-soft;
+    }
+
+    .navbar__caret {
+      transform: rotate(225deg) translateY(-2px);
+    }
+
+    .navbar__dropdown-panel {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0px);
+    }
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* Dropdown panel base                                        */
+/* ────────────────────────────────────────────────────────── */
+
+.navbar__dropdown-panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 999;
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    visibility 0.22s ease;
+
+  background: $white;
+  border: 1px solid $border;
+  border-radius: 20px;
+  box-shadow:
+    0 4px 8px rgba(15, 23, 42, 0.04),
+    0 24px 56px rgba(15, 23, 42, 0.11);
+  overflow: hidden;
+
+  // Arrow pointer
+  &::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 11px;
+    height: 11px;
+    background: $white;
+    border-left: 1px solid $border;
+    border-top: 1px solid $border;
+    border-radius: 2px 0 0 0;
+    z-index: 1;
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* Platform Dropdown                                          */
+/* ────────────────────────────────────────────────────────── */
+
+.navbar__dropdown-panel--platform {
+  width: 820px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  left: 20%; // offset so it opens under "Platform" link
+}
+
+// ── Left intro panel ─────────────────────────────
+
+.navbar__platform-intro {
+  width: 220px;
+  flex-shrink: 0;
+  padding: 32px 26px;
+  display: flex;
+  flex-direction: column;
+  background: $bg-soft;
+  border-right: 1px solid $border;
+}
+
+.navbar__platform-heading {
+  font-size: 22px;
+  font-weight: 800;
+  color: $black;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 0 0 12px;
+  text-decoration: none;
+  transition: color 0.18s ease;
+  display: block;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
+.navbar__platform-text {
+  font-size: 13px;
+  color: $text-light;
+  line-height: 1.65;
+  margin: 0 0 20px;
+}
+
+.navbar__platform-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: $primary;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+  margin-top: auto;
+
+  svg {
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    opacity: 0.8;
+
+    svg {
+      transform: translateX(3px);
+    }
+  }
+}
+
+// ── Grid of platform links ────────────────────────
+
+.navbar__platform-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  padding: 16px;
+  align-content: start;
+}
+
+.navbar__platform-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.18s ease;
+  position: relative;
+
+  // Left accent on hover
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: $primary;
+    border-radius: 0 2px 2px 0;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+  }
+
+  &:hover {
+    background: $primary-soft;
+
+    &::before { opacity: 1; }
+
+    .navbar__platform-item-title { color: $primary; }
+  }
+}
+
+.navbar__platform-item-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.navbar__platform-item-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: $black;
+  transition: color 0.18s ease;
+  line-height: 1.2;
+}
+
+.navbar__platform-badge {
+  background: $primary-soft;
+  color: $primary;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+  border: 1px solid rgba($primary, 0.15);
+}
+
+.navbar__platform-item-description {
+  font-size: 12px;
+  color: $text-light;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* Science / Resources Dropdown                               */
+/* ────────────────────────────────────────────────────────── */
+
+.navbar__dropdown-panel--resources {
+  width: 640px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  left: 60%;
+}
+
+// ── Left intro panel ─────────────────────────────
+
+.navbar__resources-intro {
+  width: 200px;
+  flex-shrink: 0;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  background: $bg-soft;
+  border-right: 1px solid $border;
+}
+
+.navbar__resources-kicker {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $primary;
+  margin: 0 0 10px;
+}
+
+.navbar__resources-heading {
+  font-size: 15px;
+  font-weight: 700;
+  color: $black;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+// ── Resource link list ───────────────────────────
+
+.navbar__resources-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 2px;
+}
+
+.navbar__resource-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  position: relative;
+  transition: background 0.18s ease;
+
+  // Left accent on hover
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: $primary;
+    border-radius: 0 2px 2px 0;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+  }
+
+  &:hover {
+    background: $primary-soft;
+
+    &::before { opacity: 1; }
+
+    .navbar__resource-title { color: $primary; }
+  }
+}
+
+.navbar__resource-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: $black;
+  line-height: 1.2;
+  transition: color 0.18s ease;
+}
+
+.navbar__resource-description {
+  font-size: 12px;
+  color: $text-light;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* Actions                                                    */
+/* ────────────────────────────────────────────────────────── */
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.navbar__button {
+  height: 48px;
+  padding: 0 22px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 14.5px;
+  font-weight: 600;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover { transform: translateY(-1px); }
+}
+
+.navbar__button--secondary {
+  background: $white;
+  border: 1px solid $border;
+  color: $black;
+
+  &:hover {
+    border-color: color.adjust($border, $lightness: -8%);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+}
+
+.navbar__button--primary {
+  background: $black;
+  color: $white;
+  border: 1px solid transparent;
+
+  &:hover {
+    background: #1f2937;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* Mobile Menu Button                                         */
+/* ────────────────────────────────────────────────────────── */
+
+.navbar__menu {
+  display: none;
+  width: 48px;
+  height: 48px;
+  border: 1px solid $border;
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: $black;
+    border-radius: 999px;
+  }
+}
+
+/* ────────────────────────────────────────────────────────── */
+/* Responsive                                                 */
+/* ────────────────────────────────────────────────────────── */
+
+@media (max-width: 992px) {
+  .navbar__nav,
+  .navbar__actions {
+    display: none;
+  }
+
+  .navbar__menu {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    top: 12px;
+    padding: 0 12px;
+  }
+
+  .navbar__container {
+    height: 64px;
+    border-radius: 18px;
+    padding: 0 10px 0 20px;
+  }
+
+  .navbar__logo-img {
+    height: 32px;
+  }
+}

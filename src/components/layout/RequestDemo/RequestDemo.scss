@@ -1,0 +1,510 @@
+// ============================================================================
+// VibeOS Auth Pages – Vertex Request Demo Popup Modal Styles
+// ============================================================================
+
+// Design Tokens (Matching references)
+$teal-brand: #058296;
+$teal-dark: #035b6a;
+$teal-light: #0ea5e9;
+$slate-dark: #1e293b;
+$slate-charcoal: #0f172a;
+$slate-muted: #64748b;
+$slate-border: #cbd5e1;
+$bg-blueprint: #f8fafc;
+$rivet-color: #94a3b8;
+$rivet-bg: #e2e8f0;
+$ease: cubic-bezier(0.16, 1, 0.3, 1);
+$font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+$font-heading: "SF Pro Display", "SF Pro Text", -apple-system, sans-serif;
+
+.demo-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.demo-modal-card {
+  width: 100%;
+  max-width: 580px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 2rem 2.5rem 1.8rem;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03),
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  position: relative;
+  animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 32px);
+  overflow: hidden;
+
+  @media (max-width: 600px) {
+    padding: 1.5rem 1.5rem 1.2rem;
+    max-height: calc(100vh - 20px);
+  }
+
+  // Screws/rivets design at 4 corners
+  .rivet {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: $rivet-bg;
+    border: 1px solid $rivet-color;
+    pointer-events: none;
+    
+    &.top-left { top: 12px; left: 12px; }
+    &.top-right { top: 12px; right: 12px; }
+    &.bottom-left { bottom: 12px; left: 12px; }
+    &.bottom-right { bottom: 12px; right: 12px; }
+  }
+
+  // Close Button
+  .demo-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    color: $slate-muted;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 10;
+
+    &:hover {
+      background-color: rgba(15, 23, 42, 0.05);
+      color: $slate-charcoal;
+      transform: scale(1.05);
+    }
+  }
+}
+
+// 2. HEADER
+.demo-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 1.5rem;
+
+  .demo-brand-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+
+    .demo-logo-img {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+  }
+
+  .demo-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: $slate-charcoal;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.015em;
+  }
+
+  .demo-subtitle {
+    font-size: 13px;
+    color: $slate-muted;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 420px;
+  }
+}
+
+// 3. FORM
+.demo-form-view {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+
+.demo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  padding-right: 12px;
+  margin-right: -12px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.3);
+    border-radius: 4px;
+    &:hover {
+      background: rgba(148, 163, 184, 0.5);
+    }
+  }
+}
+
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: $slate-charcoal;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"] {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid $slate-border;
+    background: #ffffff;
+    color: $slate-charcoal;
+    padding: 0 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $teal-brand;
+      box-shadow: 0 0 0 3px rgba($teal-brand, 0.08);
+    }
+  }
+}
+
+// Select Custom styling
+.select-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  .input-icon {
+    position: absolute;
+    left: 12px;
+    color: $slate-muted;
+    pointer-events: none;
+  }
+
+  select {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid $slate-border;
+    background: #ffffff;
+    color: $slate-charcoal;
+    padding: 0 32px 0 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $teal-brand;
+      box-shadow: 0 0 0 3px rgba($teal-brand, 0.08);
+    }
+  }
+
+  &:has(.input-icon) select {
+    padding-left: 32px;
+  }
+
+  .select-caret {
+    position: absolute;
+    right: 12px;
+    color: $slate-muted;
+    pointer-events: none;
+  }
+}
+
+// Checklist grid style for interest buttons
+.form-section-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 2px;
+
+  .section-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: $slate-charcoal;
+  }
+}
+
+.interests-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.interest-btn {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid $slate-border;
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  font-weight: 500;
+  color: $slate-charcoal;
+
+  .checkbox-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid $slate-border;
+    display: inline-block;
+    flex-shrink: 0;
+    position: relative;
+    background: #ffffff;
+    transition: all 0.2s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background-color: #ffffff;
+      transform: scale(0);
+      transition: transform 0.2s ease;
+    }
+  }
+
+  &:hover {
+    border-color: $teal-brand;
+    background-color: rgba($teal-brand, 0.01);
+
+    .checkbox-dot {
+      border-color: $teal-brand;
+    }
+  }
+
+  &.active {
+    border-color: $teal-brand;
+    background-color: rgba($teal-brand, 0.04);
+    font-weight: 600;
+
+    .checkbox-dot {
+      border-color: $teal-brand;
+      background-color: $teal-brand;
+
+      &::after {
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+// Consent wrapper
+.marketing-consent {
+  margin-top: 2px;
+
+  .checkbox-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+
+    input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+      
+      &:checked ~ .custom-checkbox {
+        background-color: $teal-brand;
+        border-color: $teal-brand;
+
+        &::after {
+          transform: scale(1);
+        }
+      }
+    }
+
+    .custom-checkbox {
+      width: 16px;
+      height: 16px;
+      border: 1px solid $slate-border;
+      border-radius: 4px;
+      display: inline-block;
+      flex-shrink: 0;
+      background-color: #ffffff;
+      position: relative;
+      margin-top: 1px;
+      transition: all 0.2s ease;
+
+      &::after {
+        content: '✓';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: bold;
+        transition: transform 0.15s ease;
+      }
+    }
+
+    .label-text {
+      font-size: 12.5px;
+      color: $slate-muted;
+      line-height: 1.4;
+      font-weight: 500;
+      
+      &:hover {
+        color: $slate-charcoal;
+      }
+    }
+  }
+}
+
+// Submit button
+.demo-submit-btn {
+  width: 100%;
+  height: 44px;
+  border: none;
+  border-radius: 100px;
+  background-color: $slate-dark;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(30, 41, 59, 0.15);
+  margin-top: 6px;
+
+  &:hover {
+    background-color: $slate-charcoal;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.25);
+  }
+}
+
+// Success states inside modal
+.demo-success-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  padding: 1.5rem 0;
+
+  .success-icon {
+    color: #10b981;
+    animation: successPulse 2s infinite ease-in-out;
+  }
+
+  .success-heading {
+    font-size: 22px;
+    font-weight: 700;
+    color: $slate-charcoal;
+    margin: 0;
+  }
+
+  .success-text {
+    font-size: 14px;
+    color: $slate-muted;
+    line-height: 1.6;
+    max-width: 400px;
+    margin: 0;
+
+    strong {
+      color: $slate-charcoal;
+    }
+  }
+
+  .success-btn {
+    height: 44px;
+    padding: 0 32px;
+    border: none;
+    border-radius: 100px;
+    background-color: $slate-dark;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(30, 41, 59, 0.15);
+    margin-top: 10px;
+
+    &:hover {
+      background-color: $slate-charcoal;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.25);
+    }
+  }
+}
+
+@keyframes modalFadeIn {
+  from { background: rgba(15, 23, 42, 0); }
+  to { background: rgba(15, 23, 42, 0.4); }
+}
+
+@keyframes modalSlideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes successPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}

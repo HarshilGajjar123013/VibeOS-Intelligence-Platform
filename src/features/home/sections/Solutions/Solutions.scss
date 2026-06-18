@@ -1,0 +1,506 @@
+/* ==========================================================================
+   Solutions Component Styles - Premium Interactive Dashboard Layout
+   ========================================================================== */
+
+// Colors and Variables
+$slate-900: #0f172a;
+$slate-700: #334155;
+$slate-500: #64748b;
+$slate-400: #94a3b8;
+$slate-300: #cbd5e1;
+$slate-100: #f1f5f9;
+$slate-50: #f8fafc;
+$purple-primary: #7e53ff;
+$purple-glow: rgba(126, 83, 255, 0.15);
+
+// Card sizing on desktop
+$card-desktop-height: 88px;
+$card-desktop-width: 320px;
+
+.solutions-section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fcfcff;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(126, 83, 255, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(126, 83, 255, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 1) 0%, rgba(248, 250, 252, 0.6) 100%);
+  padding: 120px 24px;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.solutions-container {
+  width: 100%;
+  max-width: 1320px;
+  height: 800px;
+  display: grid;
+  grid-template-columns: $card-desktop-width 1fr $card-desktop-width;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: 1023px) {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    gap: 60px;
+  }
+}
+
+/* ============================================
+   SVG CONNECTOR LINES (Desktop Only)
+   ============================================ */
+.solutions-svg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+
+  @media (max-width: 1023px) {
+    display: none;
+  }
+}
+
+.solutions-path-bg {
+  stroke: #e2e8f0;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  fill: none;
+  transition: stroke 0.4s ease, stroke-width 0.4s ease, opacity 0.4s ease;
+  opacity: 0.7;
+
+  &.dimmed {
+    opacity: 0.15;
+  }
+
+  &.active {
+    stroke: var(--card-color);
+    stroke-width: 2.2;
+    opacity: 1;
+    filter: drop-shadow(0 0 3px var(--card-color));
+  }
+}
+
+.solutions-pulse-line {
+  stroke: var(--card-color);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  fill: none;
+  stroke-dasharray: 8 40;
+  animation: flow-in 4s linear infinite;
+  opacity: 0.8;
+  transition: stroke 0.4s ease, opacity 0.4s ease, stroke-width 0.4s ease;
+
+  &.dimmed {
+    opacity: 0.05;
+  }
+
+  &.active {
+    stroke-width: 3.2;
+    animation-duration: 1.6s;
+    opacity: 1;
+    filter: drop-shadow(0 0 5px var(--card-color));
+  }
+}
+
+.solutions-connector-dot {
+  fill: var(--card-color);
+  opacity: 0.55;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &.active {
+    opacity: 1;
+    r: 6.5;
+    filter: drop-shadow(0 0 5px var(--card-color));
+  }
+}
+
+@keyframes flow-in {
+  from {
+    stroke-dashoffset: 48; // Exactly 8 + 40 for seamless looping
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ============================================
+   SIDE COLUMNS (LEFT / RIGHT)
+   ============================================ */
+.solutions-column {
+  display: flex;
+  flex-direction: column;
+  height: 760px;
+  justify-content: space-between;
+  z-index: 5;
+  position: relative;
+
+  @media (max-width: 1023px) {
+    height: auto;
+    width: 100%;
+    gap: 16px;
+  }
+}
+
+.solutions-column-header {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: $purple-primary;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  text-align: center;
+
+  @media (min-width: 1024px) {
+    position: absolute;
+    top: -24px;
+    width: 100%;
+  }
+}
+
+.solutions-column-cards {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+
+  @media (max-width: 1023px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    width: 100%;
+  }
+}
+
+/* ============================================
+   INTERACTIVE CARD
+   ============================================ */
+.solutions-card {
+  width: 100%;
+  height: $card-desktop-height;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.015);
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  cursor: pointer;
+  box-sizing: border-box;
+
+  &:hover {
+    transform: translateY(-2px);
+    background: #ffffff;
+    border-color: var(--card-color);
+    box-shadow: 
+      0 12px 30px rgba(0, 0, 0, 0.03),
+      0 0 20px var(--card-glow);
+  }
+
+  &.dimmed {
+    opacity: 0.4;
+  }
+
+  @media (max-width: 1023px) {
+    height: auto;
+    padding: 18px;
+  }
+}
+
+.solutions-card-icon-wrapper {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-glow);
+  color: var(--card-color);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+
+  .solutions-card:hover & {
+    transform: scale(1.08) rotate(3deg);
+  }
+}
+
+.solutions-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.solutions-card-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: $slate-900;
+  line-height: 1.2;
+}
+
+.solutions-card-desc {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: $slate-500;
+  line-height: 1.4;
+}
+
+/* ============================================
+   CENTER COLUMN CONTENT
+   ============================================ */
+.solutions-center-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 40px;
+  z-index: 10;
+  position: relative;
+
+  @media (max-width: 1023px) {
+    padding: 0;
+    max-width: 600px;
+    margin: 0 auto;
+    order: -1; // Bring center statement to the top on mobile
+  }
+}
+
+// Sparkle Icon Ring
+.solutions-sparkle-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: $purple-primary;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 
+    0 10px 30px rgba(126, 83, 255, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.01);
+  margin-bottom: 32px;
+  position: relative;
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 32px;
+    border: 1px dashed rgba(126, 83, 255, 0.2);
+    animation: rotate-ring 24s linear infinite;
+    pointer-events: none;
+    transition: border-color 0.5s ease;
+  }
+
+  &.active::before {
+    border-color: var(--card-color);
+  }
+
+  &.active {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes rotate-ring {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.solutions-sparkle-icon {
+  transition: transform 0.4s ease, color 0.4s ease;
+  
+  .solutions-sparkle-ring:hover & {
+    transform: scale(1.1) rotate(10deg);
+  }
+}
+
+// Title
+.solutions-main-title {
+  margin: 0 0 16px 0;
+  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+  font-weight: 800;
+  color: $slate-900;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-family: var(--font-heading);
+
+  span {
+    background: linear-gradient(135deg, $purple-primary 0%, #5e35b1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+// Description
+.solutions-main-desc {
+  margin: 0 0 32px 0;
+  font-size: 16px;
+  color: $slate-500;
+  line-height: 1.6;
+  max-width: 420px;
+}
+
+// CTA Button
+.solutions-cta-btn {
+  border: none;
+  outline: none;
+  height: 52px;
+  padding: 0 32px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, $purple-primary 0%, #6366f1 100%);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(126, 83, 255, 0.28);
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  font-family: inherit;
+  text-decoration: none;
+
+  svg {
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(126, 83, 255, 0.38);
+    background: linear-gradient(135deg, #8b62ff 0%, #7376ff 100%);
+
+    svg {
+      transform: translateX(4px);
+    }
+  }
+
+  &:active {
+    transform: translateY(1px);
+    box-shadow: 0 5px 15px rgba(126, 83, 255, 0.2);
+  }
+}
+
+// Rotating Stats Carousel
+.solutions-stats-carousel {
+  margin-top: 10px;
+  width: 100%;
+  max-width: 380px;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(4px);
+  border: 1px dashed rgba(126, 83, 255, 0.18);
+  border-radius: 20px;
+  padding: 20px 24px 16px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+  min-height: 112px;
+  position: relative;
+  transition: border-color 0.4s ease;
+
+  @media (max-width: 1023px) {
+    margin-top: 32px;
+  }
+
+  .solutions-center-block.active & {
+    border-color: var(--card-color);
+  }
+}
+
+.solutions-stats-rotator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  animation: slide-fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.solutions-stat-value {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+  font-family: var(--font-heading);
+  background: linear-gradient(135deg, $purple-primary 0%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.4s ease;
+
+  .solutions-center-block.active & {
+    background: var(--card-color);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.solutions-stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: $slate-500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.solutions-stats-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.solutions-stat-dot {
+  border: none;
+  outline: none;
+  padding: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: $slate-300;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+
+  &:hover {
+    background: $slate-400;
+  }
+
+  &.active {
+    background: $purple-primary;
+    width: 16px;
+    border-radius: 4px;
+
+    .solutions-center-block.active & {
+      background: var(--card-color);
+    }
+  }
+}
+
+@keyframes slide-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

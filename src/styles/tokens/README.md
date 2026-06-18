@@ -1,0 +1,1 @@
+Design tokens (colors, spacing, typography). Export tokens for use in CSS-in-JS or Tailwind config.

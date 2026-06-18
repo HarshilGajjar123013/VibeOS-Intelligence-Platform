@@ -1,0 +1,1609 @@
+/* ==========================================================================
+   VibeIndexMatrix SCSS - Interactive Performance Culture Matrix
+   ========================================================================== */
+
+// 1. VARIABLES & COLOR SYSTEM
+$slate-950: #020617;
+$slate-900: #0f172a;
+$slate-800: #1e293b;
+$slate-700: #334155;
+$slate-600: #475569;
+$slate-500: #64748b;
+$slate-400: #94a3b8;
+$slate-300: #cbd5e1;
+$slate-200: #e2e8f0;
+$slate-100: #f1f5f9;
+$slate-50: #f8fafc;
+
+$purple-primary: #7e53ff;
+$purple-hover: #6c42eb;
+$purple-glow: rgba(126, 83, 255, 0.12);
+
+$blue-primary: #3b82f6;
+$teal-primary: #10b981;
+$amber-primary: #f59e0b;
+$red-primary: #ef4444;
+
+$font-sans: var(--font-jakarta), -apple-system, BlinkMacSystemFont, sans-serif;
+$font-heading: var(--font-jakarta), Georgia, serif;
+
+@mixin glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.7);
+  box-shadow: 0 4px 30px rgba(15, 23, 42, 0.03);
+}
+
+@mixin section-padding {
+  padding: 100px 24px;
+  @media (max-width: 768px) {
+    padding: 60px 16px;
+  }
+}
+
+// Page Shell
+.vim-page {
+  font-family: $font-sans;
+  background-color: #fcfcff;
+  color: $slate-900;
+  overflow-x: hidden;
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+}
+
+// Common Buttons
+.vim-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 52px;
+  padding: 0 28px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  font-family: inherit;
+
+  svg {
+    transition: transform 0.2s ease;
+  }
+
+  &:hover svg {
+    transform: translateX(4px);
+  }
+}
+
+.vim-btn-primary {
+  background: linear-gradient(135deg, $purple-primary 0%, #6366f1 100%);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 10px 25px rgba(126, 83, 255, 0.25);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(126, 83, 255, 0.35);
+    background: linear-gradient(135deg, $purple-hover 0%, #4f46e5 100%);
+  }
+}
+
+.vim-btn-secondary {
+  background: #ffffff;
+  color: $slate-800;
+  border: 1px solid rgba(226, 232, 240, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+
+  &:hover {
+    transform: translateY(-2px);
+    background: $slate-50;
+    border-color: $slate-300;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+  }
+}
+
+// Common Header
+.vim-section-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 64px auto;
+
+  @media (max-width: 768px) {
+    margin-bottom: 40px;
+  }
+}
+
+.vim-section-title {
+  font-size: clamp(2rem, 3.2vw, 2.6rem);
+  font-weight: 800;
+  color: $slate-900;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  font-family: $font-heading;
+}
+
+.vim-section-subtitle {
+  font-size: clamp(15px, 1.8vw, 17px);
+  color: $slate-500;
+  line-height: 1.6;
+  margin: 0;
+}
+
+// ============================================
+// 1. HERO SECTION
+// ============================================
+.vim-hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding: 140px 24px 80px 24px;
+  background-color: #fcfcff;
+  overflow: hidden;
+
+  @media (max-width: 1023px) {
+    padding: 120px 16px 60px 16px;
+    min-height: auto;
+  }
+}
+
+.vim-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.vim-hero-bg .glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.3;
+}
+
+.vim-hero-bg .glow-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, $purple-primary 0%, transparent 70%);
+  top: -100px;
+  right: -50px;
+}
+
+.vim-hero-bg .glow-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, $blue-primary 0%, transparent 70%);
+  bottom: -50px;
+  left: -100px;
+}
+
+.vim-hero-bg .grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(226, 232, 240, 0.25) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(226, 232, 240, 0.25) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, black, transparent);
+}
+
+.vim-hero-container {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 48px;
+  align-items: center;
+  z-index: 2;
+
+  @media (max-width: 1023px) {
+    grid-template-columns: 1fr;
+    gap: 60px;
+    text-align: center;
+  }
+}
+
+.vim-hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  @media (max-width: 1023px) {
+    align-items: center;
+  }
+}
+
+.vim-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 600;
+  color: $purple-primary;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(126, 83, 255, 0.05);
+
+  .icon {
+    font-size: 14px;
+  }
+}
+
+.vim-hero-title {
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 800;
+  color: $slate-900;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0 0 24px 0;
+  font-family: $font-heading;
+
+  span {
+    background: linear-gradient(135deg, $purple-primary 0%, #5e35b1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.vim-hero-desc {
+  font-size: clamp(16px, 2vw, 19px);
+  color: $slate-600;
+  line-height: 1.6;
+  margin: 0 0 40px 0;
+  max-width: 580px;
+
+  @media (max-width: 1023px) {
+    max-width: 650px;
+  }
+}
+
+.vim-hero-ctas {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+
+    .vim-btn {
+      width: 100%;
+    }
+  }
+}
+
+.vim-hero-visual {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+// 2x2 Plotter styling
+.vim-interactive-plotter {
+  @include glass;
+  border-radius: 28px;
+  padding: 40px 40px 60px 60px;
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.02);
+
+  @media (max-width: 768px) {
+    padding: 24px 16px 40px 24px;
+  }
+}
+
+.plotter-axis-y {
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  transform: rotate(-90deg) translateX(-50%);
+  transform-origin: 0 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: $slate-400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+
+  @media (max-width: 768px) {
+    left: -12px;
+  }
+}
+
+.plotter-axis-x {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 700;
+  color: $slate-400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.plotter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 140px 140px;
+  gap: 12px;
+  width: 100%;
+  position: relative;
+  border-left: 2px solid $slate-200;
+  border-bottom: 2px solid $slate-200;
+
+  @media (max-width: 768px) {
+    grid-template-rows: 120px 120px;
+  }
+}
+
+.plot-line {
+  position: absolute;
+  background: $slate-200;
+  pointer-events: none;
+}
+
+.plotter-line-h {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  border-top: 1px dashed rgba($slate-400, 0.35);
+}
+
+.plotter-line-v {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  border-left: 1px dashed rgba($slate-400, 0.35);
+}
+
+.mini-quad {
+  border: none;
+  outline: none;
+  background: rgba(248, 250, 252, 0.4);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+
+  span {
+    font-size: 11px;
+    font-weight: 700;
+    color: $slate-400;
+    max-width: 80px;
+    transition: color 0.3s ease;
+  }
+
+  &:hover {
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  }
+
+  &.active {
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+
+    &.top-right { border: 2.2px solid $teal-primary; span { color: $teal-primary; } }
+    &.top-left { border: 2.2px solid $blue-primary; span { color: $blue-primary; } }
+    &.bottom-right { border: 2.2px solid $amber-primary; span { color: $amber-primary; } }
+    &.bottom-left { border: 2.2px solid $red-primary; span { color: $red-primary; } }
+  }
+}
+
+.plotter-dot {
+  position: absolute;
+  padding: 4px 8px;
+  background: #ffffff;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 800;
+  color: $slate-700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  pointer-events: none;
+  border: 1.5px solid;
+
+  &.eng-dot { border-color: $teal-primary; color: $teal-primary; }
+  &.sales-dot { border-color: $amber-primary; color: $amber-primary; }
+  &.support-dot { border-color: $blue-primary; color: $blue-primary; }
+}
+
+.plotter-tooltip {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+
+  .lbl {
+    color: $slate-400;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+// ============================================
+// 2. TRUSTED BY LOGOS
+// ============================================
+.vim-trusted {
+  padding: 40px 24px;
+  background: $slate-50;
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.trusted-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: $slate-400;
+  letter-spacing: 0.12em;
+  margin: 0 0 24px 0;
+}
+
+.trusted-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  opacity: 0.65;
+
+  .logo-item {
+    font-size: 18px;
+    font-weight: 800;
+    color: $slate-500;
+    letter-spacing: -0.02em;
+  }
+}
+
+// ============================================
+// 3. OUTCOMES / STATS
+// ============================================
+.vim-outcomes {
+  @include section-padding;
+  background: #ffffff;
+}
+
+.vim-outcomes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+
+  @media (max-width: 1023px) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.outcome-card {
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  border-radius: 24px;
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: transparent;
+    transition: background 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+    border-color: rgba(226, 232, 240, 0.4);
+
+    .card-visual-container {
+      border-color: rgba(226, 232, 240, 1);
+      background: #ffffff;
+    }
+
+    .pulse-circle {
+      animation: pulse 1.5s infinite;
+    }
+  }
+
+  &.outcome-card--stock:hover::before {
+    background: linear-gradient(90deg, $purple-primary, #6366f1);
+  }
+
+  &.outcome-card--retention:hover::before {
+    background: linear-gradient(90deg, $blue-primary, #38bdf8);
+  }
+
+  &.outcome-card--density:hover::before {
+    background: linear-gradient(90deg, $teal-primary, #34d399);
+  }
+
+  .card-visual-container {
+    height: 140px;
+    border-radius: 18px;
+    background: rgba(248, 250, 252, 0.6);
+    border: 1px solid rgba(226, 232, 240, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .card-content-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .outcome-number {
+    font-size: clamp(32px, 4.5vw, 42px);
+    font-weight: 850;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+    font-family: $font-heading;
+    display: flex;
+    align-items: baseline;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: $slate-900;
+    margin: 0 0 10px 0;
+  }
+
+  p {
+    font-size: 14px;
+    color: $slate-500;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.outcome-card--stock {
+  .outcome-number {
+    color: $purple-primary;
+  }
+  .card-mini-chart {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .chart-badge {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(126, 83, 255, 0.08);
+    border: 1px solid rgba(126, 83, 255, 0.15);
+    color: $purple-primary;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.outcome-card--retention {
+  .outcome-number {
+    color: $blue-primary;
+  }
+  .radial-progress-wrap {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .radial-progress {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+
+    .radial-bg {
+      fill: none;
+      stroke: rgba(59, 130, 246, 0.08);
+      stroke-width: 8;
+    }
+    .radial-fill {
+      fill: none;
+      stroke: $blue-primary;
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 251.2;
+      transition: stroke-dashoffset 0.8s ease-out;
+    }
+  }
+  .radial-value {
+    position: absolute;
+    font-size: 15px;
+    font-weight: 800;
+    color: $slate-900;
+  }
+  .avatar-preview-row {
+    display: flex;
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    align-items: center;
+
+    .avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: $slate-200;
+      border: 2px solid #ffffff;
+      margin-left: -8px;
+      font-size: 8px;
+      font-weight: 700;
+      color: $slate-700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease;
+
+      &:first-child {
+        margin-left: 0;
+      }
+      &:nth-child(1) { background: #e0f2fe; color: #0369a1; }
+      &:nth-child(2) { background: #dbeafe; color: #1d4ed8; }
+      &:nth-child(3) { background: #f0fdf4; color: #15803d; }
+      &:nth-child(4) { background: #fef3c7; color: #b45309; }
+
+      &.last-more {
+        background: $slate-900;
+        color: #ffffff;
+        font-size: 8px;
+      }
+
+      &:hover {
+        transform: translateY(-4px) scale(1.1);
+        z-index: 10;
+      }
+    }
+  }
+}
+
+.outcome-card--density {
+  .outcome-number {
+    color: $teal-primary;
+  }
+  .comparison-bar-chart {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 12px;
+  }
+  .comp-bar-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .bar-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: $slate-500;
+    }
+    .bar-track {
+      width: 100%;
+      height: 24px;
+      background: rgba(226, 232, 240, 0.4);
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 8px;
+      transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+
+      &.peak-fill {
+        background: linear-gradient(90deg, $teal-primary 0%, #34d399 100%);
+      }
+      &.other-fill {
+        background: $slate-400;
+      }
+
+      .fill-value {
+        font-size: 10px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+    }
+  }
+  .density-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    color: $teal-primary;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+// ============================================
+// 4. CAPABILITIES / TABS
+// ============================================
+.vim-capabilities {
+  @include section-padding;
+  background-color: #fcfcff;
+  border-top: 1px solid $slate-100;
+  border-bottom: 1px solid $slate-100;
+}
+
+.caps-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 48px;
+  align-items: center;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+
+.caps-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @media (max-width: 900px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.cap-tab-btn {
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 24px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+
+  .bullet {
+    width: 8px;
+    height: 8px;
+    background: $slate-300;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+
+  .txt {
+    font-size: 14px;
+    font-weight: 700;
+    color: $slate-500;
+    transition: all 0.3s ease;
+  }
+
+  &:hover .txt {
+    color: $slate-800;
+  }
+
+  &.active {
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+
+    .bullet {
+      background: $purple-primary;
+      box-shadow: 0 0 0 3px rgba(126, 83, 255, 0.15);
+    }
+
+    .txt {
+      color: $purple-primary;
+    }
+  }
+}
+
+.caps-viewport {
+  @include glass;
+  border-radius: 32px;
+  padding: 40px;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    padding: 24px;
+  }
+}
+
+.cap-slide {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 40px;
+  width: 100%;
+  align-items: center;
+
+  @media (max-width: 1023px) {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.cap-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .cap-kicker {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $purple-primary;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+
+  .cap-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: $slate-900;
+    margin: 0 0 16px 0;
+    line-height: 1.25;
+  }
+
+  .cap-desc {
+    font-size: 14px;
+    color: $slate-600;
+    line-height: 1.6;
+    margin: 0 0 24px 0;
+  }
+
+  .cap-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    li {
+      font-size: 13px;
+      font-weight: 600;
+      color: $slate-700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bullet-icon {
+      color: $teal-primary;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.cap-visual-box {
+  width: 100%;
+  background: $slate-50;
+  border: 1px solid rgba(226, 232, 240, 0.7);
+  border-radius: 20px;
+  padding: 24px;
+  height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+
+  .mockup-title {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: $slate-400;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+  }
+}
+
+// survey mockup detail
+.mockup-survey {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .mockup-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    p {
+      font-size: 11px;
+      font-weight: 600;
+      color: $slate-600;
+      margin: 0;
+    }
+  }
+
+  .rating-row {
+    display: flex;
+    gap: 6px;
+
+    .rating-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid $slate-300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: $slate-500;
+      font-weight: 700;
+
+      &.active {
+        background: $purple-primary;
+        color: white;
+        border-color: $purple-primary;
+      }
+    }
+  }
+}
+
+// quadrant mockup detail
+.mockup-quadrant {
+  .quadrant-display {
+    width: 160px;
+    height: 160px;
+    border-left: 2px solid $slate-300;
+    border-bottom: 2px solid $slate-300;
+    margin: 0 auto;
+    position: relative;
+
+    .line-h {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      border-top: 1px dashed $slate-300;
+    }
+
+    .line-v {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      border-left: 1px dashed $slate-300;
+    }
+
+    .q-label {
+      position: absolute;
+      font-size: 8px;
+      font-weight: 700;
+      color: $slate-400;
+
+      &.tr { top: 8px; right: 8px; color: $teal-primary; }
+      &.bl { bottom: 8px; left: 8px; color: $red-primary; }
+    }
+
+    .pulse-dot {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: $teal-primary;
+      border-radius: 50%;
+      top: 30%;
+      left: 70%;
+      box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.15);
+    }
+  }
+}
+
+// coach mockup detail
+.mockup-coach {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .chat-bubble {
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    max-width: 90%;
+
+    p {
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    &.left {
+      background: $slate-200;
+      color: $slate-800;
+      align-self: flex-start;
+      border-bottom-left-radius: 2px;
+    }
+
+    &.right {
+      background: $purple-primary;
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 2px;
+    }
+  }
+}
+
+// roadmap mockup detail
+.mockup-roadmap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .roadmap-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    padding: 10px 14px;
+    border-radius: 10px;
+
+    .step-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+
+      &.checked { color: $teal-primary; }
+      &.in-progress { color: $purple-primary; }
+    }
+
+    strong {
+      font-size: 11px;
+      font-weight: 700;
+      display: block;
+      color: $slate-800;
+    }
+
+    span {
+      font-size: 10px;
+      color: $slate-400;
+    }
+  }
+}
+
+// ============================================
+// 5. DETAILED QUADRANTS SECTION
+// ============================================
+.vim-quadrants {
+  @include section-padding;
+  background: #ffffff;
+}
+
+.quads-matrix-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+
+  @media (max-width: 1023px) {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.quads-visual-board {
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 32px;
+  padding: 40px 40px 60px 60px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.01);
+
+  @media (max-width: 768px) {
+    padding: 24px 16px 40px 24px;
+  }
+}
+
+.quads-visual-board .axis-label-y {
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  transform: rotate(-90deg) translateX(-50%);
+  transform-origin: 0 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: $slate-400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+
+  @media (max-width: 768px) {
+    left: -12px;
+  }
+}
+
+.quads-visual-board .axis-label-x {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 700;
+  color: $slate-400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.quads-board-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 160px 160px;
+  gap: 16px;
+  width: 100%;
+  position: relative;
+  border-left: 2px solid $slate-200;
+  border-bottom: 2px solid $slate-200;
+
+  @media (max-width: 768px) {
+    grid-template-rows: 120px 120px;
+  }
+}
+
+.board-cell {
+  border: none;
+  outline: none;
+  background: rgba(248, 250, 252, 0.6);
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+
+  span {
+    font-size: 15px;
+    font-weight: 700;
+    color: $slate-700;
+    line-height: 1.3;
+    max-width: 130px;
+    transition: color 0.3s ease;
+  }
+
+  &:hover {
+    transform: scale(1.02);
+    background: #ffffff;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+  }
+
+  &.active {
+    background: #ffffff;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+
+    span {
+      font-weight: 800;
+    }
+
+    &.cell-peak { border: 2.2px solid $teal-primary; span { color: $teal-primary; } }
+    &.cell-skepticism { border: 2.2px solid $blue-primary; span { color: $blue-primary; } }
+    &.cell-strained { border: 2.2px solid $amber-primary; span { color: $amber-primary; } }
+    &.cell-disconnected { border: 2.2px solid $red-primary; span { color: $red-primary; } }
+  }
+}
+
+.quads-text-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.quad-details-card {
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-left-width: 5px;
+  border-radius: 24px;
+  padding: 36px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.015);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    padding: 24px;
+  }
+
+  .card-kicker {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $slate-400;
+    letter-spacing: 0.05em;
+  }
+
+  .card-title {
+    font-size: 23px;
+    font-weight: 800;
+    margin: 0;
+  }
+
+  .card-desc, .card-outcome {
+    font-size: 14px;
+    color: $slate-600;
+    line-height: 1.6;
+    margin: 0;
+
+    strong {
+      color: $slate-900;
+    }
+  }
+
+  .card-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    margin-top: 8px;
+
+    .metric-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      strong {
+        font-size: 21px;
+        font-weight: 800;
+        color: $slate-900;
+        line-height: 1;
+      }
+
+      span {
+        font-size: 10px;
+        font-weight: 700;
+        color: $slate-500;
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+// ============================================
+// 6. TESTIMONIAL SECTION
+// ============================================
+.vim-testimonial {
+  @include section-padding;
+  background-color: $slate-50;
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.testimonial-card-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+
+  .quote-mark {
+    font-size: 72px;
+    line-height: 1;
+    color: $purple-primary;
+    opacity: 0.15;
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .testimonial-quote {
+    font-size: clamp(18px, 2.5vw, 22px);
+    font-style: italic;
+    color: $slate-700;
+    line-height: 1.6;
+    margin: 0 0 24px 0;
+    font-family: $font-heading;
+    position: relative;
+    z-index: 2;
+  }
+
+  .testimonial-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 16px;
+
+    strong {
+      font-size: 15px;
+      color: $slate-900;
+    }
+
+    span {
+      font-size: 12px;
+      color: $slate-500;
+    }
+  }
+
+  .testimonial-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $purple-primary;
+    background: rgba(126, 83, 255, 0.08);
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+}
+
+// ============================================
+// 7. WHITEPAPER DOWNLOAD
+// ============================================
+.vim-whitepaper {
+  @include section-padding;
+  background: #ffffff;
+}
+
+.whitepaper-inner {
+  @include glass;
+  border-radius: 32px;
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 40px;
+  align-items: center;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    padding: 32px 24px;
+    text-align: center;
+  }
+}
+
+.whitepaper-info {
+  h2 {
+    font-size: clamp(21px, 3.5vw, 28px);
+    font-weight: 800;
+    color: $slate-900;
+    margin: 0 0 12px 0;
+    font-family: $font-heading;
+  }
+
+  p {
+    font-size: 15px;
+    color: $slate-500;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.whitepaper-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.whitepaper-form .input-group,
+.vim-final-cta .input-group {
+  position: relative;
+  width: 100%;
+  display: flex;
+  background: #ffffff;
+  border: 1px solid $slate-300;
+  border-radius: 16px;
+  padding: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s ease;
+
+  &:focus-within {
+    border-color: $purple-primary;
+    box-shadow: 0 4px 16px rgba(126, 83, 255, 0.08);
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: $slate-400;
+  }
+
+  .paper-input, .cta-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: none;
+    height: 44px;
+    padding: 0 12px 0 44px;
+    font-size: 14px;
+    color: $slate-800;
+    font-family: inherit;
+
+    &::placeholder {
+      color: $slate-400;
+    }
+  }
+
+  .paper-submit-btn, .cta-submit-btn {
+    border: none;
+    outline: none;
+    background: linear-gradient(135deg, $purple-primary 0%, #6366f1 100%);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 0 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+
+    &:hover {
+      background: linear-gradient(135deg, $purple-hover 0%, #4f46e5 100%);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+.form-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 8px;
+  width: 100%;
+
+  &.msg-success {
+    background: rgba(16, 185, 129, 0.1);
+    color: $teal-primary;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+
+  &.msg-error {
+    background: rgba(239, 68, 68, 0.1);
+    color: $red-primary;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+}
+
+
+// ============================================
+// 9. FINAL CTA SECTION
+// ============================================
+.vim-final-cta {
+  @include section-padding;
+  background-color: #0c0a1f;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(126, 83, 255, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cta-box {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    font-size: clamp(2.1rem, 4.5vw, 3rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.03em;
+    font-family: $font-heading;
+  }
+
+  p {
+    font-size: clamp(14px, 1.8vw, 16px);
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    max-width: 580px;
+    margin: 0 auto 40px auto;
+  }
+
+  .cta-form {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .input-group {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    &:focus-within {
+      border-color: rgba(126, 83, 255, 0.4);
+    }
+
+    .cta-input {
+      color: #ffffff;
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.35);
+      }
+    }
+  }
+}
