@@ -161,10 +161,10 @@ export default function Hero() {
             <div className={`hero__tooltip hero__tooltip--center ${highlightedCardId === "center" ? "hero__tooltip--visible" : ""}`}>
               <div className="hero__tooltip-header">
                 <span className="hero__tooltip-dot" style={{ backgroundColor: "#7e53ff" }}></span>
-                <span className="hero__tooltip-role">CoreShift Engine</span>
+                {/* <span className="hero__tooltip-role">CoreShift Engine</span> */}
               </div>
-              <h4 className="hero__tooltip-title">Central HR Hub</h4>
-              <p className="hero__tooltip-desc">Connecting directory databases, automated flows, culture, and analytics in one ecosystem.</p>
+              <h4 className="hero__tooltip-title">VibeOS Intelligence Engine</h4>
+              <p className="hero__tooltip-desc">AI analyzes organizational patterns, identifies emerging risks, and uncovers hidden opportunities.</p>
             </div>
           </button>
 
