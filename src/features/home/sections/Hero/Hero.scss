@@ -514,10 +514,11 @@ $white-bg: #ffffff;
   }
 }
 
-.hero__tooltip--center {
-  top: 125%;
+.hero__tooltip--center,
+.hero__tooltip--top-center {
+  bottom: 125%;
   left: 50%;
-  transform: translateX(-50%) translateY(-8px) scale(0.95);
+  transform: translateX(-50%) translateY(8px) scale(0.95);
 
   &.hero__tooltip--visible {
     transform: translateX(-50%) translateY(0) scale(1);
@@ -526,12 +527,12 @@ $white-bg: #ffffff;
   &::after {
     content: '';
     position: absolute;
-    bottom: 100%;
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
     border-width: 6px;
     border-style: solid;
-    border-color: transparent transparent rgba(255, 255, 255, 0.82) transparent;
+    border-color: rgba(255, 255, 255, 0.82) transparent transparent transparent;
   }
 }
 
