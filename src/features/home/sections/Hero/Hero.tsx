@@ -16,7 +16,7 @@ type AvatarCard = {
   src: string;
   alt: string;
   title: string;
-  role: string;
+  role?: string;
   description: string;
   color: string;
   tooltipPosition: "top" | "bottom" | "left" | "right";
@@ -28,7 +28,7 @@ type IconCard = {
   icon: React.ReactNode;
   tone: string;
   title: string;
-  role: string;
+  role?: string;
   description: string;
   color: string;
   tooltipPosition: "top" | "bottom" | "left" | "right";
@@ -38,70 +38,69 @@ type FloatingCard = AvatarCard | IconCard;
 
 const floatingCards: readonly FloatingCard[] = [
   {
-    id: "avatar-left",
-    className: "hero__card--avatar-left",
-    src: "/images/person-1.svg",
-    alt: "Team member portrait",
-    title: "Aarav Sharma",
-    role: "Tech Lead",
-    description: "Collaborates across departments and registers team vibe checks in real-time.",
-    color: "#a78bfa",
-    tooltipPosition: "right",
+    id: 'avatar-left',
+    className: 'hero__card--avatar-left',
+    src: '/images/person-1.png',
+    alt: 'Team member portrait',
+    title: 'TEAM MEMBER',
+    
+    description: 'Shares feedback, experiences, and workplace sentiment that shape organizational understanding.',
+    color: '#a78bfa',
+    tooltipPosition: 'right',
   },
   {
-    id: "idea",
-    className: "hero__card--idea",
+    id: 'idea',
+    className: 'hero__card--idea',
     icon: <HiOutlineLightBulb />,
-    tone: "hero__card--yellow",
-    title: "Smart Feedback",
-    role: "CoreShift Suggest",
-    description: "AI-powered feedback boxes to capture employee recommendations instantly.",
-    color: "#ffe86c",
-    tooltipPosition: "bottom",
+    tone: 'hero__card--yellow',
+    title: 'Capture Human Signals',
+    description: 'Collect sentiment, feedback, recognition, and behavioral indicators from across the organization.',
+    color: '#ffe86c',
+    tooltipPosition: 'bottom',
   },
   {
-    id: "team",
-    className: "hero__card--team",
+    id: 'team',
+    className: 'hero__card--team',
     icon: <IoBalloonOutline />,
-    tone: "hero__card--blue",
-    title: "Vibe & Alignment",
-    role: "CoreShift Engage",
-    description: "Daily mood indicators, rewards, and milestone recognition cards.",
-    color: "#49c4ff",
-    tooltipPosition: "top",
+    tone: 'hero__card--blue',
+    title: 'Understand Workforce Sentiment',
+    
+    description: 'Transform everyday experiences into measurable insights without adding survey fatigue.',
+    color: '#49c4ff',
+    tooltipPosition: 'top',
   },
   {
-    id: "security",
-    className: "hero__card--security",
+    id: 'security',
+    className: 'hero__card--security',
     icon: <SlEnergy />,
-    tone: "hero__card--orange",
-    title: "Automated Flows",
-    role: "CoreShift Automate",
-    description: "Instant onboarding check-ins, payroll systems, and security gates.",
-    color: "#ff6037",
-    tooltipPosition: "bottom",
+    tone: 'hero__card--orange',
+    title: 'Turn Insight Into Action',
+    
+    description: 'Receive personalized recommendations, manager guidance, and culture interventions that drive change.',
+    color: '#ff6037',
+    tooltipPosition: 'bottom',
   },
   {
-    id: "avatar-right",
-    className: "hero__card--avatar-right",
-    src: "/images/person-2.svg",
-    alt: "Team member portrait",
-    title: "Elena Rostova",
-    role: "HR Director",
-    description: "Deploys pulse surveys and reviews organization metrics securely.",
-    color: "#ff8b6c",
-    tooltipPosition: "top",
+    id: 'avatar-right',
+    className: 'hero__card--avatar-right',
+    src: '/images/person-2.png',
+    alt: 'Team member portrait',
+    title: 'PEOPLE LEADER',
+    
+    description: 'Uses cultural intelligence to strengthen teams, improve engagement, and drive meaningful action.',
+    color: '#ff8b6c',
+    tooltipPosition: 'top',
   },
   {
-    id: "eye",
-    className: "hero__card--eye",
+    id: 'eye',
+    className: 'hero__card--eye',
     icon: <FiEye />,
-    tone: "hero__card--white",
-    title: "Live Directories",
-    role: "CoreShift View",
-    description: "Complete database auditing, directory visibility, and access control.",
-    color: "#a3a3a3",
-    tooltipPosition: "left",
+    tone: 'hero__card--white',
+    title: 'See What Others Miss',
+    
+    description: 'Monitor organizational health, alignment, engagement, and retention risk from a single source of truth.',
+    color: '#a3a3a3',
+    tooltipPosition: 'left',
   },
 ] as const;
 
@@ -159,7 +158,7 @@ export default function Hero() {
             </div>
             
             {/* Center Tooltip */}
-            <div className={`hero__tooltip hero__tooltip--bottom ${highlightedCardId === "center" ? "hero__tooltip--visible" : ""}`}>
+            <div className={`hero__tooltip hero__tooltip--center ${highlightedCardId === "center" ? "hero__tooltip--visible" : ""}`}>
               <div className="hero__tooltip-header">
                 <span className="hero__tooltip-dot" style={{ backgroundColor: "#7e53ff" }}></span>
                 <span className="hero__tooltip-role">CoreShift Engine</span>
@@ -203,10 +202,12 @@ export default function Hero() {
 
                 {/* Glassmorphic Feature Tooltip */}
                 <div className={`hero__tooltip hero__tooltip--${card.tooltipPosition} ${isHighlighted ? "hero__tooltip--visible" : ""}`}>
-                  <div className="hero__tooltip-header">
-                    <span className="hero__tooltip-dot" style={{ backgroundColor: card.color }}></span>
-                    <span className="hero__tooltip-role">{card.role}</span>
-                  </div>
+                  {card.role && (
+                    <div className="hero__tooltip-header">
+                      <span className="hero__tooltip-dot" style={{ backgroundColor: card.color }}></span>
+                      <span className="hero__tooltip-role">{card.role}</span>
+                    </div>
+                  )}
                   <h4 className="hero__tooltip-title">{card.title}</h4>
                   <p className="hero__tooltip-desc">{card.description}</p>
                 </div>
