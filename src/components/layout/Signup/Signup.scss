@@ -93,6 +93,10 @@ $font-heading: "SF Pro Display", "SF Pro Text", -apple-system, sans-serif;
     min-height: 480px;
   }
 
+  @media (max-width: 639px) {
+    display: none;
+  }
+
   // Visual texture lines
   &::before {
     content: '';

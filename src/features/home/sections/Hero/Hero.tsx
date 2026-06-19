@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { HiCheck, HiOutlineLightBulb } from "react-icons/hi";
 import { SlEnergy } from "react-icons/sl";
@@ -117,6 +117,8 @@ export default function Hero() {
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -134,176 +136,226 @@ export default function Hero() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const updateScale = () => {
+      if (containerRef.current) {
+        const width = containerRef.current.getBoundingClientRect().width;
+        setScale(Math.min(1, width / 1000));
+      }
+    };
+    updateScale();
+    const observer = new ResizeObserver(updateScale);
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   const highlightedCardId = hoveredCardId || activeCardId;
+
+  const activeCard = activeCardId === "center"
+    ? { title: "VibeOS Intelligence Engine", description: "AI analyzes organizational patterns, identifies emerging risks, and uncovers hidden opportunities.", color: "#7e53ff" }
+    : floatingCards.find(c => c.id === activeCardId);
 
   return (
     <section className="hero">
-      <div className="hero__container">
-        <div className={`hero__network ${isMounted ? "hero__network--mounted" : ""}`}>
-          
-          {/* Central Active Node */}
-          <button 
-            className={`hero__center ${highlightedCardId === "center" ? "hero__center--active" : ""} ${activeCardId === "center" ? "hero__center--click-active" : ""}`}
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveCardId(activeCardId === "center" ? null : "center");
+      <div className="hero__container" ref={containerRef}>
+        <div 
+          className={`hero__network-wrapper ${isMounted ? "hero__network-wrapper--mounted" : ""}`}
+          style={{
+            width: "100%",
+            height: `${300 * scale}px`,
+            display: "flex",
+            justifyContent: "center",
+            overflow: "hidden",
+            position: "relative"
+          }}
+        >
+          <div 
+            className={`hero__network ${isMounted ? "hero__network--mounted" : ""}`}
+            style={{
+              width: "1000px",
+              height: "300px",
+              transform: `scale(${scale})`,
+              transformOrigin: "center top",
+              flexShrink: 0
             }}
-            onMouseEnter={() => setHoveredCardId("center")}
-            onMouseLeave={() => setHoveredCardId(null)}
-            aria-label="CoreShift HR Platform Core"
           >
-            <div className="hero__center-icon">
-              <HiCheck />
-            </div>
             
-            {/* Center Tooltip */}
-            <div className={`hero__tooltip hero__tooltip--center ${highlightedCardId === "center" ? "hero__tooltip--visible" : ""}`}>
+            {/* Central Active Node */}
+            <button 
+              className={`hero__center ${highlightedCardId === "center" ? "hero__center--active" : ""} ${activeCardId === "center" ? "hero__center--click-active" : ""}`}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveCardId(activeCardId === "center" ? null : "center");
+              }}
+              onMouseEnter={() => setHoveredCardId("center")}
+              onMouseLeave={() => setHoveredCardId(null)}
+              aria-label="CoreShift HR Platform Core"
+            >
+              <div className="hero__center-icon">
+                <HiCheck />
+              </div>
               
-              <h4 className="hero__tooltip-title">VibeOS Intelligence Engine</h4>
-              <p className="hero__tooltip-desc">AI analyzes organizational patterns, identifies emerging risks, and uncovers hidden opportunities.</p>
-            </div>
-          </button>
+              {/* Center Tooltip */}
+              <div className={`hero__tooltip hero__tooltip--center ${highlightedCardId === "center" ? "hero__tooltip--visible" : ""}`}>
+                
+                <h4 className="hero__tooltip-title">VibeOS Intelligence Engine</h4>
+                <p className="hero__tooltip-desc">AI analyzes organizational patterns, identifies emerging risks, and uncovers hidden opportunities.</p>
+              </div>
+            </button>
 
-          {/* Floating Cards */}
-          {floatingCards.map((card) => {
-            const isHighlighted = highlightedCardId === card.id;
-            
-            return (
-              <button
-                key={card.id}
-                className={`hero__card ${card.className} ${"tone" in card ? card.tone : "hero__card--avatar"} ${isHighlighted ? "hero__card--active" : ""} ${activeCardId === card.id ? "hero__card--click-active" : ""}`}
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setActiveCardId(activeCardId === card.id ? null : card.id);
-                }}
-                onMouseEnter={() => setHoveredCardId(card.id)}
-                onMouseLeave={() => setHoveredCardId(null)}
-                aria-label={`View details for ${card.title}`}
-              >
-                {"src" in card ? (
-                  <div className="hero__avatar-wrapper">
-                    <Image
-                      src={card.src}
-                      alt={card.alt}
-                      fill
-                      className="hero__avatar"
-                      sizes="96px"
-                      priority={false}
-                    />
-                  </div>
-                ) : (
-                  <div className="hero__icon-wrapper">{card.icon}</div>
-                )}
-
-                {/* Glassmorphic Feature Tooltip */}
-                <div className={`hero__tooltip hero__tooltip--${card.tooltipPosition} ${isHighlighted ? "hero__tooltip--visible" : ""}`}>
-                  {card.role && (
-                    <div className="hero__tooltip-header">
-                      <span className="hero__tooltip-dot" style={{ backgroundColor: card.color }}></span>
-                      <span className="hero__tooltip-role">{card.role}</span>
+            {/* Floating Cards */}
+            {floatingCards.map((card) => {
+              const isHighlighted = highlightedCardId === card.id;
+              
+              return (
+                <button
+                  key={card.id}
+                  className={`hero__card ${card.className} ${"tone" in card ? card.tone : "hero__card--avatar"} ${isHighlighted ? "hero__card--active" : ""} ${activeCardId === card.id ? "hero__card--click-active" : ""}`}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveCardId(activeCardId === card.id ? null : card.id);
+                  }}
+                  onMouseEnter={() => setHoveredCardId(card.id)}
+                  onMouseLeave={() => setHoveredCardId(null)}
+                  aria-label={`View details for ${card.title}`}
+                >
+                  {"src" in card ? (
+                    <div className="hero__avatar-wrapper">
+                      <Image
+                        src={card.src}
+                        alt={card.alt}
+                        fill
+                        className="hero__avatar"
+                        sizes="96px"
+                        priority={false}
+                      />
                     </div>
+                  ) : (
+                    <div className="hero__icon-wrapper">{card.icon}</div>
                   )}
-                  <h4 className="hero__tooltip-title">{card.title}</h4>
-                  <p className="hero__tooltip-desc">{card.description}</p>
-                </div>
-              </button>
-            );
-          })}
 
-          {/* SVG Line Connections */}
-          <svg className="hero__svg-lines" viewBox="0 0 1000 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            {/* Base grey connection lines */}
-            <path d="M 370 150 L 260 120 L 110 120" stroke="#E2E8F0" strokeWidth="1.5" />
-            <path d="M 260 120 L 235 60" stroke="#E2E8F0" strokeWidth="1.5" />
-            <path d="M 260 120 L 250 205" stroke="#E2E8F0" strokeWidth="1.5" />
-            
-            <path d="M 470 150 L 580 110 L 870 110" stroke="#E2E8F0" strokeWidth="1.5" />
-            <path d="M 580 110 L 645 55" stroke="#E2E8F0" strokeWidth="1.5" />
-            <path d="M 580 110 L 665 190" stroke="#E2E8F0" strokeWidth="1.5" />
-            
-            {/* Active Highlight Connection Lines */}
-            <path 
-              d="M 370 150 L 260 120 L 110 120" 
-              className={`hero__svg-glow ${highlightedCardId === "avatar-left" ? "hero__svg-glow--active" : ""}`}
-              stroke="#a78bfa"
-              strokeWidth="2.5"
-            />
-            <path 
-              d="M 370 150 L 260 120 L 235 60" 
-              className={`hero__svg-glow ${highlightedCardId === "idea" ? "hero__svg-glow--active" : ""}`}
-              stroke="#ffe86c"
-              strokeWidth="2.5"
-            />
-            <path 
-              d="M 370 150 L 260 120 L 250 205" 
-              className={`hero__svg-glow ${highlightedCardId === "team" ? "hero__svg-glow--active" : ""}`}
-              stroke="#49c4ff"
-              strokeWidth="2.5"
-            />
-            <path 
-              d="M 470 150 L 580 110 L 870 110" 
-              className={`hero__svg-glow ${highlightedCardId === "eye" ? "hero__svg-glow--active" : ""}`}
-              stroke="#cbd5e1"
-              strokeWidth="2.5"
-            />
-            <path 
-              d="M 470 150 L 580 110 L 645 55" 
-              className={`hero__svg-glow ${highlightedCardId === "security" ? "hero__svg-glow--active" : ""}`}
-              stroke="#ff6037"
-              strokeWidth="2.5"
-            />
-            <path 
-              d="M 470 150 L 580 110 L 665 190" 
-              className={`hero__svg-glow ${highlightedCardId === "avatar-right" ? "hero__svg-glow--active" : ""}`}
-              stroke="#ff8b6c"
-              strokeWidth="2.5"
-            />
+                  {/* Glassmorphic Feature Tooltip */}
+                  <div className={`hero__tooltip hero__tooltip--${card.tooltipPosition} ${isHighlighted ? "hero__tooltip--visible" : ""}`}>
+                    {card.role && (
+                      <div className="hero__tooltip-header">
+                        <span className="hero__tooltip-dot" style={{ backgroundColor: card.color }}></span>
+                        <span className="hero__tooltip-role">{card.role}</span>
+                      </div>
+                    )}
+                    <h4 className="hero__tooltip-title">{card.title}</h4>
+                    <p className="hero__tooltip-desc">{card.description}</p>
+                  </div>
+                </button>
+              );
+            })}
 
-            {/* Glowing signal pulses */}
-            <path 
-              d="M 370 150 L 260 120 L 110 120" 
-              className={`hero__svg-pulse ${highlightedCardId === "avatar-left" ? "hero__svg-pulse--active" : ""}`}
-              stroke="#a78bfa"
-              strokeWidth="2.5"
-            />
-            <path 
-              d="M 370 150 L 260 120 L 235 60" 
-              className={`hero__svg-pulse ${highlightedCardId === "idea" ? "hero__svg-pulse--active" : ""}`}
-              stroke="#ffe86c"
-              strokeWidth="2.5"
-            />
-            <path 
-              d="M 370 150 L 260 120 L 250 205" 
-              className={`hero__svg-pulse ${highlightedCardId === "team" ? "hero__svg-pulse--active" : ""}`}
-              stroke="#49c4ff"
-              strokeWidth="2.5"
-            />
-            <path 
-              d="M 470 150 L 580 110 L 870 110" 
-              className={`hero__svg-pulse ${highlightedCardId === "eye" ? "hero__svg-pulse--active" : ""}`}
-              stroke="#cbd5e1"
-              strokeWidth="2.5"
-            />
-            <path 
-              d="M 470 150 L 580 110 L 645 55" 
-              className={`hero__svg-pulse ${highlightedCardId === "security" ? "hero__svg-pulse--active" : ""}`}
-              stroke="#ff6037"
-              strokeWidth="2.5"
-            />
-            <path 
-              d="M 470 150 L 580 110 L 665 190" 
-              className={`hero__svg-pulse ${highlightedCardId === "avatar-right" ? "hero__svg-pulse--active" : ""}`}
-              stroke="#ff8b6c"
-              strokeWidth="2.5"
-            />
-            
-            {/* Junction Points */}
-            <circle cx="260" cy="120" r="3.5" fill="#a78bfa" className="hero__svg-junction" />
-            <circle cx="580" cy="110" r="3.5" fill="#a78bfa" className="hero__svg-junction" />
-          </svg>
+            {/* SVG Line Connections */}
+            <svg className="hero__svg-lines" viewBox="0 0 1000 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              {/* Base grey connection lines */}
+              <path d="M 370 150 L 260 120 L 110 120" stroke="#E2E8F0" strokeWidth="1.5" />
+              <path d="M 260 120 L 235 60" stroke="#E2E8F0" strokeWidth="1.5" />
+              <path d="M 260 120 L 250 205" stroke="#E2E8F0" strokeWidth="1.5" />
+              
+              <path d="M 470 150 L 580 110 L 870 110" stroke="#E2E8F0" strokeWidth="1.5" />
+              <path d="M 580 110 L 645 55" stroke="#E2E8F0" strokeWidth="1.5" />
+              <path d="M 580 110 L 665 190" stroke="#E2E8F0" strokeWidth="1.5" />
+              
+              {/* Active Highlight Connection Lines */}
+              <path 
+                d="M 370 150 L 260 120 L 110 120" 
+                className={`hero__svg-glow ${highlightedCardId === "avatar-left" ? "hero__svg-glow--active" : ""}`}
+                stroke="#a78bfa"
+                strokeWidth="2.5"
+              />
+              <path 
+                d="M 370 150 L 260 120 L 235 60" 
+                className={`hero__svg-glow ${highlightedCardId === "idea" ? "hero__svg-glow--active" : ""}`}
+                stroke="#ffe86c"
+                strokeWidth="2.5"
+              />
+              <path 
+                d="M 370 150 L 260 120 L 250 205" 
+                className={`hero__svg-glow ${highlightedCardId === "team" ? "hero__svg-glow--active" : ""}`}
+                stroke="#49c4ff"
+                strokeWidth="2.5"
+              />
+              <path 
+                d="M 470 150 L 580 110 L 870 110" 
+                className={`hero__svg-glow ${highlightedCardId === "eye" ? "hero__svg-glow--active" : ""}`}
+                stroke="#cbd5e1"
+                strokeWidth="2.5"
+              />
+              <path 
+                d="M 470 150 L 580 110 L 645 55" 
+                className={`hero__svg-glow ${highlightedCardId === "security" ? "hero__svg-glow--active" : ""}`}
+                stroke="#ff6037"
+                strokeWidth="2.5"
+              />
+              <path 
+                d="M 470 150 L 580 110 L 665 190" 
+                className={`hero__svg-glow ${highlightedCardId === "avatar-right" ? "hero__svg-glow--active" : ""}`}
+                stroke="#ff8b6c"
+                strokeWidth="2.5"
+              />
+
+              {/* Glowing signal pulses */}
+              <path 
+                d="M 370 150 L 260 120 L 110 120" 
+                className={`hero__svg-pulse ${highlightedCardId === "avatar-left" ? "hero__svg-pulse--active" : ""}`}
+                stroke="#a78bfa"
+                strokeWidth="2.5"
+              />
+              <path 
+                d="M 370 150 L 260 120 L 235 60" 
+                className={`hero__svg-pulse ${highlightedCardId === "idea" ? "hero__svg-pulse--active" : ""}`}
+                stroke="#ffe86c"
+                strokeWidth="2.5"
+              />
+              <path 
+                d="M 370 150 L 260 120 L 250 205" 
+                className={`hero__svg-pulse ${highlightedCardId === "team" ? "hero__svg-pulse--active" : ""}`}
+                stroke="#49c4ff"
+                strokeWidth="2.5"
+              />
+              <path 
+                d="M 470 150 L 580 110 L 870 110" 
+                className={`hero__svg-pulse ${highlightedCardId === "eye" ? "hero__svg-pulse--active" : ""}`}
+                stroke="#cbd5e1"
+                strokeWidth="2.5"
+              />
+              <path 
+                d="M 470 150 L 580 110 L 645 55" 
+                className={`hero__svg-pulse ${highlightedCardId === "security" ? "hero__svg-pulse--active" : ""}`}
+                stroke="#ff6037"
+                strokeWidth="2.5"
+              />
+              <path 
+                d="M 470 150 L 580 110 L 665 190" 
+                className={`hero__svg-pulse ${highlightedCardId === "avatar-right" ? "hero__svg-pulse--active" : ""}`}
+                stroke="#ff8b6c"
+                strokeWidth="2.5"
+              />
+              
+              {/* Junction Points */}
+              <circle cx="260" cy="120" r="3.5" fill="#a78bfa" className="hero__svg-junction" />
+              <circle cx="580" cy="110" r="3.5" fill="#a78bfa" className="hero__svg-junction" />
+            </svg>
+          </div>
         </div>
+
+        {/* Mobile active node detail card */}
+        {activeCard && (
+          <div className="hero__mobile-detail-card" style={{ borderLeftColor: activeCard.color }}>
+            <div className="hero__mobile-detail-header">
+              <span className="hero__mobile-detail-dot" style={{ backgroundColor: activeCard.color }} />
+              <h4 className="hero__mobile-detail-title">{activeCard.title}</h4>
+            </div>
+            <p className="hero__mobile-detail-desc">{activeCard.description}</p>
+          </div>
+        )}
 
         <div className="hero__content">
           <h1 className="hero__title">

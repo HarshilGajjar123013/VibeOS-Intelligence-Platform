@@ -26,6 +26,7 @@ $ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   justify-content: center;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .benefit__container {
@@ -216,8 +217,10 @@ $ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .radar-svg-wrapper {
-  width: 280px;
-  height: 280px;
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 1 / 1;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -289,6 +292,7 @@ $ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   transition: all 0.4s $ease-out;
   box-sizing: border-box;
   z-index: 2;
+  pointer-events: auto;
 
   .dim-card__icon-wrapper {
     width: 24px;
@@ -382,16 +386,31 @@ $ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   @media (max-width: 1023px) {
     width: 100%;
     max-width: 160px;
+
+    @media (max-width: 479px) {
+      max-width: 100%;
+    }
   }
 }
 
-@media (max-width: 1023px) {
-  .radar-block-cards {
+.radar-block-cards {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  @media (max-width: 1023px) {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     width: 100%;
     justify-items: center;
+    pointer-events: auto;
+
+    @media (max-width: 479px) {
+      grid-template-columns: 1fr;
+      justify-items: stretch;
+    }
   }
 }
 

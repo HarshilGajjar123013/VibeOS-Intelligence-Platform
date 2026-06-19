@@ -256,44 +256,46 @@ export default function Benefit() {
                 </div>
 
                 {/* Surrounding Dimension Cards */}
-                {DIMENSIONS.map((dim, idx) => {
-                  const Icon = dim.icon;
-                  const isHovered = hoveredDim === dim.id;
-                  const isDimmed = hoveredDim !== null && !isHovered;
+                <div className="radar-block-cards">
+                  {DIMENSIONS.map((dim, idx) => {
+                    const Icon = dim.icon;
+                    const isHovered = hoveredDim === dim.id;
+                    const isDimmed = hoveredDim !== null && !isHovered;
 
-                  // Positions mapping clockwise: Trust (top), Alignment (top-right), Wellbeing (bottom-right),
-                  // Growth (bottom), Recognition (bottom-left), Belonging (top-left)
-                  const positionClasses = [
-                    "pos-top",
-                    "pos-top-right",
-                    "pos-bottom-right",
-                    "pos-bottom",
-                    "pos-bottom-left",
-                    "pos-top-left"
-                  ];
+                    // Positions mapping clockwise: Trust (top), Alignment (top-right), Wellbeing (bottom-right),
+                    // Growth (bottom), Recognition (bottom-left), Belonging (top-left)
+                    const positionClasses = [
+                      "pos-top",
+                      "pos-top-right",
+                      "pos-bottom-right",
+                      "pos-bottom",
+                      "pos-bottom-left",
+                      "pos-top-left"
+                    ];
 
-                  return (
-                    <div
-                      key={dim.id}
-                      className={`dim-card ${positionClasses[idx]} ${isHovered ? "active" : ""} ${isDimmed ? "dimmed" : ""}`}
-                      style={{
-                        "--dim-color": dim.color,
-                        "--dim-bg": dim.bgColor,
-                        "--dim-border": dim.borderColor
-                      } as React.CSSProperties}
-                      onMouseEnter={() => setHoveredDim(dim.id)}
-                      onMouseLeave={() => setHoveredDim(null)}
-                    >
-                      <div className="dim-card__icon-wrapper">
-                        <Icon size={14} />
+                    return (
+                      <div
+                        key={dim.id}
+                        className={`dim-card ${positionClasses[idx]} ${isHovered ? "active" : ""} ${isDimmed ? "dimmed" : ""}`}
+                        style={{
+                          "--dim-color": dim.color,
+                          "--dim-bg": dim.bgColor,
+                          "--dim-border": dim.borderColor
+                        } as React.CSSProperties}
+                        onMouseEnter={() => setHoveredDim(dim.id)}
+                        onMouseLeave={() => setHoveredDim(null)}
+                      >
+                        <div className="dim-card__icon-wrapper">
+                          <Icon size={14} />
+                        </div>
+                        <div className="dim-card__content">
+                          <span className="dim-card__name">{dim.name}</span>
+                          <span className="dim-card__score">{dim.score}/100</span>
+                        </div>
                       </div>
-                      <div className="dim-card__content">
-                        <span className="dim-card__name">{dim.name}</span>
-                        <span className="dim-card__score">{dim.score}/100</span>
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
 
               </div>
 

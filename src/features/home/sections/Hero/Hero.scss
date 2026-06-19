@@ -87,11 +87,21 @@ $white-bg: #ffffff;
 }
 
 .hero__container {
-  width: min(1100px, 100%);
+  width: 100%;
+  max-width: min(1100px, 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+}
+
+.hero__network-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  position: relative;
 }
 
 /* --- Visual Network Diagram Area --- */
@@ -617,7 +627,7 @@ $white-bg: #ffffff;
   opacity: 0;
 }
 
-.hero__network--mounted ~ .hero__content {
+.hero__network-wrapper--mounted ~ .hero__content {
   .hero__title {
     animation: fade-up-text 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.4s;
   }
@@ -662,17 +672,9 @@ $white-bg: #ffffff;
   .hero__title {
     font-size: 3.6rem;
   }
-  .hero__network {
-    transform: scale(0.85);
-    height: 250px;
-  }
 }
 
 @media (max-width: 768px) {
-  .hero__network {
-    transform: scale(0.7);
-    height: 220px;
-  }
   .hero__title {
     font-size: 2.8rem;
   }
@@ -680,14 +682,75 @@ $white-bg: #ffffff;
     font-size: 1rem;
     .hero__desc-break { display: none; }
   }
+  .hero__tooltip {
+    display: none !important;
+  }
 }
 
 @media (max-width: 500px) {
-  .hero__network {
-    transform: scale(0.55);
-    height: 180px;
-  }
   .hero__title {
-    font-size: 2.4rem;
+    font-size: 2.1rem;
   }
 }
+
+@media (max-width: 360px) {
+  .hero {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .hero__title {
+    font-size: 1.8rem;
+  }
+}
+
+/* Glassmorphic active card details for mobile viewports */
+.hero__mobile-detail-card {
+  display: none;
+  width: 100%;
+  max-width: 480px;
+  margin: 16px auto 0;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-left: 5px solid #7e53ff;
+  border-radius: 16px;
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.03),
+    0 1px 3px rgba(0, 0, 0, 0.01);
+  text-align: left;
+  animation: fade-up-text 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+.hero__mobile-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.hero__mobile-detail-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.hero__mobile-detail-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+}
+
+.hero__mobile-detail-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #4b5563;
+  margin: 0;
+}
+

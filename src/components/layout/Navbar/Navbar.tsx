@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useProtoStore } from "@/src/store/useProtoStore";
@@ -92,6 +93,8 @@ const RESOURCE_LINKS: ResourceLink[] = [
 
 export default function Navbar() {
   const { setDemoModalOpen } = useProtoStore();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileDropdown, setMobileDropdown] = useState<string | null>(null);
 
   const handleRequestDemo = () => {
     if (typeof setDemoModalOpen === "function") {
@@ -99,15 +102,24 @@ export default function Navbar() {
     } else {
       window.location.reload();
     }
+    setIsMobileMenuOpen(false);
+  };
+
+  const toggleMobileDropdown = (name: string, e: React.MouseEvent) => {
+    if (typeof window !== "undefined" && window.innerWidth <= 992) {
+      e.preventDefault();
+      setMobileDropdown(mobileDropdown === name ? null : name);
+    }
   };
 
   return (
-    <header className="navbar">
+    <header className={`navbar ${isMobileMenuOpen ? "navbar--mobile-open" : ""}`}>
       <div className="navbar__container">
         {/* Logo */}
         <Link
           href="/"
           className="navbar__logo"
+          onClick={() => setIsMobileMenuOpen(false)}
         >
           <img
             src="/assets/images/logo2.png"
@@ -118,22 +130,24 @@ export default function Navbar() {
 
         {/* Navigation */}
         <nav
-          className="navbar__nav"
+          className={`navbar__nav ${isMobileMenuOpen ? "navbar__nav--open" : ""}`}
           aria-label="Primary Navigation"
         >
-          {/* {Home} */}
-            <Link
+          {/* Home */}
+          <Link
             href="/"
             className="navbar__link"
+            onClick={() => setIsMobileMenuOpen(false)}
           >
             Home
           </Link>
 
           {/* Platform */}
-          <div className="navbar__dropdown">
+          <div className={`navbar__dropdown ${mobileDropdown === "platform" ? "navbar__dropdown--open" : ""}`}>
             <button
               type="button"
               className="navbar__link navbar__link--trigger"
+              onClick={(e) => toggleMobileDropdown("platform", e)}
             >
               Platform
 
@@ -145,7 +159,11 @@ export default function Navbar() {
 
             <div className="navbar__dropdown-panel navbar__dropdown-panel--platform">
               <div className="navbar__platform-intro">
-                <Link href="/platform" className="navbar__platform-heading">
+                <Link 
+                  href="/platform" 
+                  className="navbar__platform-heading"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
                   Platform
                 </Link>
 
@@ -155,7 +173,11 @@ export default function Navbar() {
                   at scale.
                 </p>
 
-                <Link href="/platform" className="navbar__platform-cta">
+                <Link 
+                  href="/platform" 
+                  className="navbar__platform-cta"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
                   Explore Platform
                   <ArrowRight size={13} />
                 </Link>
@@ -167,6 +189,7 @@ export default function Navbar() {
                     key={link.label}
                     href={link.href}
                     className="navbar__platform-item"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <div className="navbar__platform-item-head">
                       <span className="navbar__platform-item-title">
@@ -189,11 +212,12 @@ export default function Navbar() {
             </div>
           </div>
 
-            {/* Insights */}
-          <div className="navbar__dropdown">
+          {/* Insights */}
+          <div className={`navbar__dropdown ${mobileDropdown === "insights" ? "navbar__dropdown--open" : ""}`}>
             <button
               type="button"
               className="navbar__link navbar__link--trigger"
+              onClick={(e) => toggleMobileDropdown("insights", e)}
             >
               Insights
 
@@ -222,6 +246,7 @@ export default function Navbar() {
                     key={link.label}
                     href={link.href}
                     className="navbar__resource-item"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <span className="navbar__resource-title">
                       {link.label}
@@ -240,6 +265,7 @@ export default function Navbar() {
           <Link
             href="/about"
             className="navbar__link"
+            onClick={() => setIsMobileMenuOpen(false)}
           >
             About
           </Link>
@@ -248,14 +274,31 @@ export default function Navbar() {
           <Link
             href="/contact"
             className="navbar__link"
+            onClick={() => setIsMobileMenuOpen(false)}
           >
             Contact
           </Link>
 
-         
+          {/* Mobile Actions Drawer Content */}
+          <div className="navbar__mobile-actions">
+            <Link
+              href="/signin"
+              className="navbar__button navbar__button--secondary"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Sign in
+            </Link>
+
+            <button
+              onClick={handleRequestDemo}
+              className="navbar__button navbar__button--primary"
+            >
+              Request a Demo
+            </button>
+          </div>
         </nav>
 
-        {/* Actions */}
+        {/* Actions (Desktop) */}
         <div className="navbar__actions">
           <Link
             href="/signin"
@@ -272,11 +315,13 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile */}
+        {/* Mobile Hamburger Button */}
         <button
           type="button"
-          className="navbar__menu"
-          aria-label="Open menu"
+          className={`navbar__menu ${isMobileMenuOpen ? "navbar__menu--open" : ""}`}
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMobileMenuOpen}
         >
           <span />
           <span />

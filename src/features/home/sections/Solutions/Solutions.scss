@@ -174,7 +174,7 @@ $card-desktop-width: 320px;
 
   @media (max-width: 1023px) {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 16px;
     width: 100%;
   }
@@ -503,4 +503,9 @@ $card-desktop-width: 320px;
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.solutions-desktop-wrapper {
+  width: 100%;
+  position: relative;
 }
